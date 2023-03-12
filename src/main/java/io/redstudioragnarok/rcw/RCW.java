@@ -23,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod(modid = ModReference.id, name = ModReference.name, version = ModReference.version)
+@Mod.EventBusSubscriber
 public class RCW {
 
     public static boolean showInActionBar = false;
@@ -65,7 +66,7 @@ public class RCW {
 
     // Todo: Move this somewhere else.
     @SubscribeEvent
-    public void registerItems(RegistryEvent.Register<Item> itemRegistryEvent) {
+    public static void registerItems(RegistryEvent.Register<Item> itemRegistryEvent) {
         crystalWing = new CrystalWing().setTranslationKey("crystal_wing").setRegistryName(ModReference.id, "crystal_wing");
 
         itemRegistryEvent.getRegistry().registerAll(crystalWing);
