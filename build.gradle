@@ -14,7 +14,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 // Add version to the jar name
-version project.mod_version
+version project.version
 
 minecraft {
     version = '1.12.2-14.23.5.2847'
@@ -23,9 +23,9 @@ minecraft {
 
     def args = ['-Dforge.logging.console.level=debug']
 
-    replace('@ID@', project.mod_id)
-    replace('@NAME@', project.mod_name)
-    replace('@VERSION@', project.mod_version)
+    replace('@ID@', project.id)
+    replace('@NAME@', project.name)
+    replace('@VERSION@', project.version)
     replaceIn('ModReference.java')
 }
 
@@ -37,12 +37,12 @@ runClient {
 processResources {
     duplicatesStrategy 'include'
 
-    inputs.property 'id', project.mod_id
-    inputs.property 'name', project.mod_name
-    inputs.property 'version', project.mod_version
+    inputs.property 'id', project.id
+    inputs.property 'name', project.name
+    inputs.property 'version', project.version
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand 'id': project.mod_id, 'name': project.mod_name, 'version': project.mod_version
+        expand 'id': project.id, 'name': project.name, 'version': project.version
     }
 }
 
