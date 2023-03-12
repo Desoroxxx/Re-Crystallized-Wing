@@ -1,7 +1,6 @@
 package io.redstudioragnarok.rcw;
 
 import io.redstudioragnarok.rcw.items.CrystalWing;
-import io.redstudioragnarok.rcw.items.CrystalWingBurning;
 import io.redstudioragnarok.rcw.utils.ModReference;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.block.Block;
@@ -17,7 +16,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -63,10 +61,6 @@ public class RCW {
 
             return checkForSafety && bottomSafe && topSafe ? blockPos : null;
         }
-    }
-
-    public static void initItems() {
-
     }
 
     // Todo: Move this somewhere else.
