@@ -72,15 +72,9 @@ public class RCW {
     // Todo: Move this somewhere else.
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> itemRegistryEvent) {
-        crystalWing = new CrystalWing();
-        crystalWing.setTranslationKey("crystal_wing");
-        crystalWing.setRegistryName("crystal_wing");
-        /*
-        crystalWingBurning = (new CrystalWingBurning()).setTranslationKey("crystal_wing_burning");
-        crystalWingBurnt = (new CrystalWingBurnt()).setTranslationKey("crystal_wing_burnt");
-        enderScepter = (new EnderScepter()).setTranslationKey("ender_scepter");
-         */
-        itemRegistryEvent.getRegistry().registerAll(crystalWing/*, crystalWingBurning, crystalWingBurnt, enderScepter*/);
+        crystalWing = new CrystalWing().setRegistryName("crystal_wing").setTranslationKey("crystal_wing");
+
+        itemRegistryEvent.getRegistry().registerAll(crystalWing);
     }
 
 
