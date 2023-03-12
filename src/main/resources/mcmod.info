@@ -1,0 +1,14 @@
+[
+  {
+    "modid": "${id}",
+    "name": "${name}",
+    "description": "",
+    "version": "${version}",
+    "mcversion": "1.12.2",
+    "url": "",
+    "authorList": ["Red Studio"],
+    "credits": "Desoroxxx, bspkrs",
+    "logoFile": "assets/rcw/textures/gui/rcw_logo.png",
+    "screenshots": []
+  }
+]
