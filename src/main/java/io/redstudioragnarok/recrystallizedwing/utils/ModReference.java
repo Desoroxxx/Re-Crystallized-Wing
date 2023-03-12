@@ -1,10 +1,10 @@
-package io.redstudioragnarok.rcw.utils;
+package io.redstudioragnarok.recrystallizedwing.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class defines constants for RCW.
+ * This class defines constants for ReCrystallized Wing.
  */
 public class ModReference {
 

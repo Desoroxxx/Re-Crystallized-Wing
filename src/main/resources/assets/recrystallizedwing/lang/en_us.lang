@@ -1,0 +1,19 @@
+# General
+
+teleport.chatMessage=Magical winds brought you home
+
+# Items
+
+item.crystal_wing.name=Crystal Wing
+item.crystal_wing_burnt.name=Burnt Wing
+item.crystal_wing_burning.name=Burning Wing
+item.ender_scepter.name=Ender Scepter
+
+# Achievements
+
+achievement.enderScepter=Harnessing The Power Of The Void
+achievement.enderScepter.description=Harness the power of an ender eye with an ender scepter
+
+achievement.burntWing=To Hell And Back
+achievement.burntWing.description=Get a Burnt Wing by entering water with a Burning Wing.
+

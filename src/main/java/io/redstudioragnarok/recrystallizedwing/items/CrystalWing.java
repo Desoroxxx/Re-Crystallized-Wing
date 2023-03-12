@@ -1,10 +1,9 @@
-package io.redstudioragnarok.rcw.items;
+package io.redstudioragnarok.recrystallizedwing.items;
 
-import io.redstudioragnarok.rcw.RCW;
+import io.redstudioragnarok.recrystallizedwing.RCW;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,14 +16,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
+import static io.redstudioragnarok.recrystallizedwing.RCW.crystalWingBurning;
+
 public class CrystalWing extends Item {
 
     public CrystalWing() {
         maxStackSize = 1;
         this.setCreativeTab(CreativeTabs.TRANSPORTATION);
 
-        if (RCW.uses > 0) {
-            this.setMaxDamage(RCW.uses - 1);
+        if (RCW.crystalWingDurability > 0) {
+            this.setMaxDamage(RCW.crystalWingDurability - 1);
         }
     }
 
@@ -35,8 +36,8 @@ public class CrystalWing extends Item {
         if (!world.isRemote && isCooledDown(itemStack)) {
             if (player.dimension == -1) {
                 itemStack = null;
-                world.playSound(player, player.getPosition(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.PLAYERS , 1.0F, 1.0F);
-                itemStack = new ItemStack(/*RCW.crystalWingBurning*/ Items.BOWL, 1);
+                world.playSound(null, player.getPosition(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.PLAYERS , 1.0F, 1.0F);
+                itemStack = new ItemStack(crystalWingBurning, 1);
                 return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemStack);
             }
 
@@ -50,8 +51,7 @@ public class CrystalWing extends Item {
             if (chunkCoords == null)
                 chunkCoords = world.getSpawnPoint();
 
-            // Todo: Use new chat message
-            player.sendStatusMessage(new TextComponentTranslation("crystalwing.teleporthome.chatmessage"), RCW.showInActionBar);
+            player.sendStatusMessage(new TextComponentTranslation("teleport.chatMessage"), RCW.showInActionBar);
 
             player.rotationPitch = 0.0F;
             player.rotationYaw = 0.0F;
@@ -61,18 +61,16 @@ public class CrystalWing extends Item {
                 player.setPositionAndUpdate(player.posX, player.posY + 1.0D, player.posZ);
             }
 
-
-
-            world.playSound(player, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
             RCW.spawnExplosionParticleAtEntity(player);
 
-            if (RCW.uses > 0)
+            if (RCW.crystalWingDurability > 0)
                 itemStack.damageItem(1, player);
 
             setCoolDown(itemStack, (short) 40);
         }
 
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
     }
 
     @Override

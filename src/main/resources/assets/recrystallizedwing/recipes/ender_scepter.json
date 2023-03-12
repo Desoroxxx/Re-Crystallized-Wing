@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " e ",
+    "gsg",
+    "gsg"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:gold_ingot"
+    },
+    "e": {
+      "item": "minecraft:ender_pearl"
+    },
+    "s": {
+      "item": "minecraft:end_stone"
+    }
+  },
+  "result": {
+    "item": "recrystallizedwing:ender_scepter",
+    "count": 1
+  }
+}
