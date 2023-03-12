@@ -66,12 +66,12 @@ public class RCW {
     // Todo: Move this somewhere else.
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> itemRegistryEvent) {
-        crystalWing = new CrystalWing().setRegistryName("crystal_wing").setTranslationKey("crystal_wing");
+        crystalWing = new CrystalWing().setTranslationKey("crystal_wing").setRegistryName("crystal_wing");
 
         itemRegistryEvent.getRegistry().registerAll(crystalWing);
     }
 
-
+    // Todo: Move this somewhere else.
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void registerRenders(ModelRegistryEvent modelRegistryEvent) {
