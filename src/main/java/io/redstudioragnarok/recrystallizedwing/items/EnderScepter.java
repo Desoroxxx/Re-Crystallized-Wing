@@ -19,11 +19,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EnderScepter extends Item {
+
     private int coolDown = 0;
 
     public EnderScepter() {
+        setCreativeTab(CreativeTabs.TRANSPORTATION);
+
         maxStackSize = 1;
-        this.setCreativeTab(CreativeTabs.TRANSPORTATION);
 
         if (RCW.enderScepterDurability > 0) {
             this.setMaxDamage(RCW.crystalWingDurability - 1);
@@ -51,8 +53,8 @@ public class EnderScepter extends Item {
                     player.setPositionAndUpdate(player.posX, player.posY + 1.0D, player.posZ);
                 }
 
-                world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                RCW.spawnExplosionParticleAtEntity(player);
+                world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1.0F, 1.0F);
+                RCW.spawnExplosionParticleAtEntity(player, world, 40);
 
                 coolDown = 40;
             }

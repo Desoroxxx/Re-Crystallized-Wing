@@ -5,16 +5,17 @@ import io.redstudioragnarok.recrystallizedwing.items.CrystalWingBurning;
 import io.redstudioragnarok.recrystallizedwing.items.CrystalWingBurnt;
 import io.redstudioragnarok.recrystallizedwing.items.EnderScepter;
 import io.redstudioragnarok.recrystallizedwing.utils.ModReference;
-import net.minecraft.advancements.Advancement;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -26,6 +27,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Random;
+
 @Mod(modid = ModReference.id, name = ModReference.name, version = ModReference.version)
 @Mod.EventBusSubscriber
 public class RCW {
@@ -33,7 +36,7 @@ public class RCW {
     // Todo: Make config system with default Forge
     // Todo: Add Crystal Wing to loot tables and Burnt Wing to loot tables in place where it's hot
     // Todo: Add Ender Scepter to the end loot tables
-    // Todo: Add the achievements
+    // Todo: Add the achievements for getting the ender scepter & extinguishing the burning crystal wing
 
     public static boolean showInActionBar = false;
     public static boolean onlyTeleportIfSafe = true;
@@ -50,43 +53,36 @@ public class RCW {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    // Todo: Make the particles actually spawn
-    public static void spawnExplosionParticleAtEntity(Entity entity) {
-        for (int i = 0; i < 20; ++i) {
-            double d0 = entity.world.rand.nextGaussian() * 0.02D;
-            double d1 = entity.world.rand.nextGaussian() * 0.02D;
-            double d2 = entity.world.rand.nextGaussian() * 0.02D;
-            double d3 = 10.0D;
-            entity.world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, (entity.posX + (entity.world.rand.nextFloat() * entity.width * 2.0F)) - entity.width - (d0 * d3), (entity.posY + (entity.world.rand.nextFloat() * entity.height)) - (d1 * d3), (entity.posZ + (entity.world.rand.nextFloat() * entity.width * 2.0F)) - entity.width - (d2 * d3), d0, d1, d2);
+    public static void spawnExplosionParticleAtEntity(Entity entity, World world, int ammount) {
+        final Random random = new Random();
+        for (int i = 0; i < ammount; ++i) {
+            double xVelocity = random.nextGaussian() / 8;
+            double yVelocity = random.nextGaussian() / 8;
+            double zVelocity = random.nextGaussian() / 8;
+            world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, entity.posX, entity.posY, entity.posZ, xVelocity, yVelocity, zVelocity);
         }
     }
 
     // Todo: Move to somewhere better
-    public static BlockPos verifyRespawnCoordinates(World world, BlockPos blockPos, boolean checkForSafety) {
+    public static boolean verifyRespawnCoordinates(World world, BlockPos blockPos) {
         IBlockState iBlockState = world.getBlockState(blockPos);
         Block block = iBlockState.getBlock();
 
-        if (block.equals(Blocks.BED) || block.isBed(iBlockState, world, blockPos, null)) {
-            return block.getBedSpawnPosition(iBlockState, world, blockPos, null);
-        } else {
-            Material bottomBlockMaterial = block.getMaterial(iBlockState);
-            Material topBlockMaterial = world.getBlockState(blockPos.up()).getBlock().getMaterial(iBlockState);
+        Material floorBlockMaterial = world.getBlockState(blockPos.down()).getBlock().getMaterial(iBlockState);
+        Material bottomBlockMaterial = block.getMaterial(iBlockState);
+        Material topBlockMaterial = world.getBlockState(blockPos.up()).getBlock().getMaterial(iBlockState);
 
-            boolean bottomSafe = !bottomBlockMaterial.isSolid() && !bottomBlockMaterial.isLiquid();
-            boolean topSafe = !topBlockMaterial.isSolid() && !topBlockMaterial.isLiquid();
+        boolean floorSafe =  floorBlockMaterial.isSolid() || floorBlockMaterial.isLiquid();
+        boolean bottomSafe = !bottomBlockMaterial.isSolid() && !bottomBlockMaterial.isLiquid();
+        boolean topSafe = !topBlockMaterial.isSolid() && !topBlockMaterial.isLiquid();
 
-            return checkForSafety && bottomSafe && topSafe ? blockPos : null;
-        }
+        return floorSafe && bottomSafe && topSafe;
     }
 
     // Todo: Move to somewhere better
-    public static int getHighestSolidBlock(World world, BlockPos pos, Boolean skipNonNormalCubeAndWood) {
-        int x = pos.getX();
-        int z = pos.getZ();
-        int y = world.getActualHeight();
-
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        mutablePos.setPos(x, y, z);
+    public static int getHighestSolidBlock(World world, BlockPos blockPos, Boolean skipNonNormalCubeAndWood) {
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos(blockPos);
+        mutablePos.setY(world.getActualHeight());
 
         if (!skipNonNormalCubeAndWood) {
             while ((mutablePos.getY() > 0) && world.isAirBlock(mutablePos)) {
@@ -119,5 +115,31 @@ public class RCW {
         ModelLoader.setCustomModelResourceLocation(crystalWingBurning, 0, new ModelResourceLocation(crystalWingBurning.delegate.name(), "inventory"));
         ModelLoader.setCustomModelResourceLocation(crystalWingBurnt, 0, new ModelResourceLocation(crystalWingBurnt.delegate.name(), "inventory"));
         ModelLoader.setCustomModelResourceLocation(enderScepter, 0, new ModelResourceLocation(enderScepter.delegate.name(), "inventory"));
+    }
+
+    // Todo: Move to somewhere better
+    public static BlockPos randomTeleport(World world, EntityPlayer player) {
+        final Random random = new Random();
+
+        boolean isSafe = false;
+
+        while (!isSafe) {
+            int randomX = (int) ((player.posX + random.nextInt(RCW.teleDistance * 2)) - RCW.teleDistance);
+            int randomZ = (int) ((player.posZ + random.nextInt(RCW.teleDistance * 2)) - RCW.teleDistance);
+
+            BlockPos blockPos = new BlockPos(randomX, getHighestSolidBlock(world, new BlockPos(randomX, 0, randomZ), false), randomZ);
+
+            player.setPositionAndUpdate(randomX + 0.5, blockPos.getY(), randomZ + 0.5);
+
+            while (!world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty()) {
+                player.setPositionAndUpdate(player.posX, player.posY + 1.0, player.posZ);
+            }
+
+            isSafe = RCW.verifyRespawnCoordinates(world, new BlockPos(blockPos.getX(), blockPos.getY() + 1, blockPos.getZ()));
+        }
+
+        world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1.0F, 1.0F);
+
+        return null;
     }
 }
