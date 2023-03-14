@@ -1,8 +1,8 @@
 package io.redstudioragnarok.recrystallizedwing;
 
+import io.redstudioragnarok.recrystallizedwing.items.BurnWing;
+import io.redstudioragnarok.recrystallizedwing.items.BurningWing;
 import io.redstudioragnarok.recrystallizedwing.items.CrystalWing;
-import io.redstudioragnarok.recrystallizedwing.items.CrystalWingBurning;
-import io.redstudioragnarok.recrystallizedwing.items.CrystalWingBurnt;
 import io.redstudioragnarok.recrystallizedwing.items.EnderScepter;
 import io.redstudioragnarok.recrystallizedwing.utils.ModReference;
 import net.minecraft.block.Block;
@@ -40,15 +40,21 @@ public class RCW {
     // Todo: Add the achievements for getting the ender scepter & extinguishing the burning crystal wing
 
     public static boolean showInActionBar = false;
-    public static boolean onlyTeleportIfSafe = true;
 
     public static int crystalWingDurability = 8;
-    public static int enderScepterDurability = 8;
+    public static int burntWingDurability = 4;
+    public static int enderScepterDurability = 0;
+
     public static int teleDistance = 500;
+
     public static int enderScepterReachMult = 25;
     public static int enderScepterCreativeReachMult = 4;
 
-    public static Item crystalWing, crystalWingBurning, crystalWingBurnt, enderScepter;
+    public static int crystalWingCooldown = 80;
+    public static int burntWingCooldown = 80;
+    public static int enderScepterCooldown = 20;
+
+    public static Item crystalWing, burningWing, burntWing, enderScepter;
 
     public RCW() {
         MinecraftForge.EVENT_BUS.register(this);
@@ -101,19 +107,19 @@ public class RCW {
     @SubscribeEvent
     public static void registerItems(final RegistryEvent.Register<Item> itemRegistryEvent) {
         crystalWing = new CrystalWing().setTranslationKey("crystal_wing").setRegistryName(ModReference.id, "crystal_wing");
-        crystalWingBurning = new CrystalWingBurning().setTranslationKey("crystal_wing_burning").setRegistryName(ModReference.id, "crystal_wing_burning");
-        crystalWingBurnt = new CrystalWingBurnt().setTranslationKey("crystal_wing_burnt").setRegistryName(ModReference.id, "crystal_wing_burnt");
+        burningWing = new BurningWing().setTranslationKey("burning_wing").setRegistryName(ModReference.id, "crystal_wing_burning");
+        burntWing = new BurnWing().setTranslationKey("burnt_wing").setRegistryName(ModReference.id, "crystal_wing_burnt");
         enderScepter = new EnderScepter().setTranslationKey("ender_scepter").setRegistryName(ModReference.id, "ender_scepter");
 
-        itemRegistryEvent.getRegistry().registerAll(crystalWing, crystalWingBurning, crystalWingBurnt, enderScepter);
+        itemRegistryEvent.getRegistry().registerAll(crystalWing, burningWing, burntWing, enderScepter);
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void registerRenders(final ModelRegistryEvent modelRegistryEvent) {
         ModelLoader.setCustomModelResourceLocation(crystalWing, 0, new ModelResourceLocation(crystalWing.delegate.name(), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(crystalWingBurning, 0, new ModelResourceLocation(crystalWingBurning.delegate.name(), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(crystalWingBurnt, 0, new ModelResourceLocation(crystalWingBurnt.delegate.name(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(burningWing, 0, new ModelResourceLocation(burningWing.delegate.name(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(burntWing, 0, new ModelResourceLocation(burntWing.delegate.name(), "inventory"));
         ModelLoader.setCustomModelResourceLocation(enderScepter, 0, new ModelResourceLocation(enderScepter.delegate.name(), "inventory"));
     }
 

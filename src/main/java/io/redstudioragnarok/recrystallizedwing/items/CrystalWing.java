@@ -23,16 +23,15 @@ public class CrystalWing extends Item {
 
         maxStackSize = 1;
 
-        if (RCW.crystalWingDurability > 0) {
+        if (RCW.crystalWingDurability > 0)
             this.setMaxDamage(RCW.crystalWingDurability - 1);
-        }
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack itemStack = player.getHeldItem(hand);
 
-        if (!world.isRemote && isCooledDown(itemStack)) {
+        if (!world.isRemote) {
             if (player.dimension == 0) {
                 BlockPos targetLocation = player.getBedLocation(player.dimension);
 
@@ -70,9 +69,6 @@ public class CrystalWing extends Item {
                 world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1.0F, 1.0F);
 
                 RCW.spawnExplosionParticleAtEntity(player, 80);
-
-                if (RCW.crystalWingDurability > 0)
-                    itemStack.damageItem(1, player);
             } else if (player.dimension == -1) {
                 itemStack = null;
                 world.playSound(null, player.getPosition(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.PLAYERS , 1.0F, 1.0F);
@@ -82,7 +78,10 @@ public class CrystalWing extends Item {
                 RCW.randomTeleport(world, player);
             }
 
-            setCoolDown(itemStack, (short) 40);
+            if (RCW.crystalWingDurability > 0)
+                itemStack.damageItem(1, player);
+
+            player.getCooldownTracker().setCooldown(this, RCW.crystalWingCooldown);
         }
 
         return new ActionResult<>(EnumActionResult.PASS, itemStack);
@@ -100,29 +99,5 @@ public class CrystalWing extends Item {
             tag.setShort("cooldown", (short) 0);
             itemStack.setTagCompound(tag);
         }
-    }
-
-    private void setCoolDown(ItemStack itemStack, short cooldown) {
-        if (itemStack.hasTagCompound()) {
-            NBTTagCompound tag = itemStack.getTagCompound();
-            tag.setShort("cooldown", cooldown);
-        } else {
-            NBTTagCompound tag = new NBTTagCompound();
-            tag.setShort("cooldown", cooldown);
-            itemStack.setTagCompound(tag);
-        }
-    }
-
-    private boolean isCooledDown(ItemStack itemStack) {
-        short cooldown = (short) 0;
-        if (itemStack.hasTagCompound()) {
-            NBTTagCompound tag = itemStack.getTagCompound();
-            cooldown = tag.getShort("cooldown");
-        } else {
-            NBTTagCompound tag = new NBTTagCompound();
-            tag.setShort("cooldown", (short) 0);
-            itemStack.setTagCompound(tag);
-        }
-        return cooldown <= 0;
     }
 }

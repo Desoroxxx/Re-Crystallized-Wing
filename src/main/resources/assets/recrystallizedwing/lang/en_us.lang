@@ -5,8 +5,8 @@ teleport.chatMessage=Magical winds brought you home
 # Items
 
 item.crystal_wing.name=Crystal Wing
-item.crystal_wing_burnt.name=Burnt Wing
-item.crystal_wing_burning.name=Burning Wing
+item.burnt_wing.name=Burnt Wing
+item.burning_wing.name=Burning Wing
 item.ender_scepter.name=Ender Scepter
 
 # Achievements

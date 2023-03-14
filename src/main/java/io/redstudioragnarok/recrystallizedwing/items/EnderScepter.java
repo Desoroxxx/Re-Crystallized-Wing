@@ -3,7 +3,6 @@ package io.redstudioragnarok.recrystallizedwing.items;
 import io.redstudioragnarok.recrystallizedwing.RCW;
 import net.jafama.FastMath;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -20,23 +19,20 @@ import net.minecraft.world.World;
 
 public class EnderScepter extends Item {
 
-    private int coolDown = 0;
-
     public EnderScepter() {
         setCreativeTab(CreativeTabs.TRANSPORTATION);
 
         maxStackSize = 1;
 
-        if (RCW.enderScepterDurability > 0) {
+        if (RCW.enderScepterDurability > 0)
             this.setMaxDamage(RCW.crystalWingDurability - 1);
-        }
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack itemStack = player.getHeldItem(hand);
 
-        if (!world.isRemote && (coolDown == 0)) {
+        if (!world.isRemote) {
             RayTraceResult rayTraceResult = rayTraceWithoutReach(world, player);
             if ((rayTraceResult != null) && rayTraceResult.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
                 BlockPos chunkCoords;
@@ -59,16 +55,14 @@ public class EnderScepter extends Item {
 
                 RCW.spawnExplosionParticleAtEntity(player, 40);
 
-                coolDown = 40;
+                if (RCW.crystalWingDurability > 0)
+                    itemStack.damageItem(1, player);
+
+                player.getCooldownTracker().setCooldown(this, RCW.enderScepterCooldown);
             }
         }
 
-        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
-    }
-
-    @Override
-    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
-        if (coolDown > 0) coolDown--;
+        return new ActionResult<>(EnumActionResult.PASS, itemStack);
     }
 
     protected RayTraceResult rayTraceWithoutReach(World world, EntityPlayer player) {

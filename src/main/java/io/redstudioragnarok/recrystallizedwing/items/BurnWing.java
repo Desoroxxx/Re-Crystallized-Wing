@@ -14,12 +14,17 @@ import java.util.Random;
 
 import static io.redstudioragnarok.recrystallizedwing.RCW.crystalWing;
 
-public class CrystalWingBurnt extends Item {
+public class BurnWing extends Item {
 
     private final Random random = new Random();
 
-    public CrystalWingBurnt() {
+    public BurnWing() {
         setCreativeTab(CreativeTabs.TRANSPORTATION);
+
+        maxStackSize = 1;
+
+        if (RCW.burntWingDurability > 0)
+            this.setMaxDamage(RCW.burntWingDurability - 1);
     }
 
     @Override
@@ -32,6 +37,11 @@ public class CrystalWingBurnt extends Item {
                 return crystalWing.onItemRightClick(world, player, hand);
 
             RCW.randomTeleport(world, player);
+
+            if (RCW.burntWingDurability > 0)
+                itemStack.damageItem(1, player);
+
+            player.getCooldownTracker().setCooldown(this, RCW.burntWingCooldown);
         }
 
         return new ActionResult<>(EnumActionResult.PASS, itemStack);

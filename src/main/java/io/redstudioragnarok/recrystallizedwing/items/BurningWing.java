@@ -12,9 +12,9 @@ import net.minecraft.world.World;
 
 import static io.redstudioragnarok.recrystallizedwing.RCW.crystalWingBurnt;
 
-public class CrystalWingBurning extends Item {
+public class BurningWing extends Item {
 
-    public CrystalWingBurning() {
+    public BurningWing() {
         setCreativeTab(CreativeTabs.TRANSPORTATION);
 
         maxStackSize = 1;
