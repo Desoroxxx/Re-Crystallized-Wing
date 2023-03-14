@@ -59,6 +59,8 @@ public class CrystalWing extends Item {
 
                 player.sendStatusMessage(new TextComponentTranslation("teleport.chatMessage"), RCW.showInActionBar);
 
+                RCW.spawnExplosionParticleAtEntity(player, 80);
+
                 player.setPositionAndUpdate(targetLocation.getX(), targetLocation.getY(), targetLocation.getZ());
 
                 while (!world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty()) {
@@ -66,7 +68,8 @@ public class CrystalWing extends Item {
                 }
 
                 world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1.0F, 1.0F);
-                RCW.spawnExplosionParticleAtEntity(player, world, 80);
+
+                RCW.spawnExplosionParticleAtEntity(player, 80);
 
                 if (RCW.crystalWingDurability > 0)
                     itemStack.damageItem(1, player);

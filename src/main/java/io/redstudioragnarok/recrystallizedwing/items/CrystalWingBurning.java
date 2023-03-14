@@ -28,7 +28,7 @@ public class CrystalWingBurning extends Item {
                     EntityPlayer player = (EntityPlayer) entity;
 
                     world.playSound(null, player.getPosition(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.MASTER, 1.0F, 1.0F);
-                    RCW.spawnExplosionParticleAtEntity(player, world, 160);
+                    RCW.spawnExplosionParticleAtEntity(player, 160);
 
                     player.inventory.setInventorySlotContents(itemSlot, new ItemStack(crystalWingBurnt));
                 }

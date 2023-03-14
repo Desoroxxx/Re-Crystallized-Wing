@@ -18,6 +18,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -53,18 +54,17 @@ public class RCW {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public static void spawnExplosionParticleAtEntity(Entity entity, World world, int ammount) {
-        final Random random = new Random();
-        for (int i = 0; i < ammount; ++i) {
-            double xVelocity = random.nextGaussian() / 8;
-            double yVelocity = random.nextGaussian() / 8;
-            double zVelocity = random.nextGaussian() / 8;
-            world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, entity.posX, entity.posY, entity.posZ, xVelocity, yVelocity, zVelocity);
-        }
+    public static void spawnExplosionParticleAtEntity(final Entity entity, final int amount) {
+        Random random = new Random();
+        double velocity = random.nextGaussian() / 8;
+        double xOffset = random.nextGaussian() / 12;
+        double yOffset = random.nextGaussian() / 12;
+        double zOffset = random.nextGaussian() / 12;
+        ((WorldServer)entity.getEntityWorld()).spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, entity.posX, entity.posY, entity.posZ, amount, xOffset, yOffset, zOffset, velocity);
     }
 
     // Todo: Move to somewhere better
-    public static boolean verifyRespawnCoordinates(World world, BlockPos blockPos) {
+    public static boolean verifyRespawnCoordinates(final World world, final BlockPos blockPos) {
         IBlockState iBlockState = world.getBlockState(blockPos);
         Block block = iBlockState.getBlock();
 
@@ -80,7 +80,7 @@ public class RCW {
     }
 
     // Todo: Move to somewhere better
-    public static int getHighestSolidBlock(World world, BlockPos blockPos, Boolean skipNonNormalCubeAndWood) {
+    public static int getHighestSolidBlock(final World world, final BlockPos blockPos, final Boolean skipNonNormalCubeAndWood) {
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos(blockPos);
         mutablePos.setY(world.getActualHeight());
 
@@ -99,7 +99,7 @@ public class RCW {
 
 
     @SubscribeEvent
-    public static void registerItems(RegistryEvent.Register<Item> itemRegistryEvent) {
+    public static void registerItems(final RegistryEvent.Register<Item> itemRegistryEvent) {
         crystalWing = new CrystalWing().setTranslationKey("crystal_wing").setRegistryName(ModReference.id, "crystal_wing");
         crystalWingBurning = new CrystalWingBurning().setTranslationKey("crystal_wing_burning").setRegistryName(ModReference.id, "crystal_wing_burning");
         crystalWingBurnt = new CrystalWingBurnt().setTranslationKey("crystal_wing_burnt").setRegistryName(ModReference.id, "crystal_wing_burnt");
@@ -110,7 +110,7 @@ public class RCW {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public static void registerRenders(ModelRegistryEvent modelRegistryEvent) {
+    public static void registerRenders(final ModelRegistryEvent modelRegistryEvent) {
         ModelLoader.setCustomModelResourceLocation(crystalWing, 0, new ModelResourceLocation(crystalWing.delegate.name(), "inventory"));
         ModelLoader.setCustomModelResourceLocation(crystalWingBurning, 0, new ModelResourceLocation(crystalWingBurning.delegate.name(), "inventory"));
         ModelLoader.setCustomModelResourceLocation(crystalWingBurnt, 0, new ModelResourceLocation(crystalWingBurnt.delegate.name(), "inventory"));
@@ -118,10 +118,12 @@ public class RCW {
     }
 
     // Todo: Move to somewhere better
-    public static BlockPos randomTeleport(World world, EntityPlayer player) {
+    public static BlockPos randomTeleport(final World world, final EntityPlayer player) {
         final Random random = new Random();
 
         boolean isSafe = false;
+
+        RCW.spawnExplosionParticleAtEntity(player, 80);
 
         while (!isSafe) {
             int randomX = (int) ((player.posX + random.nextInt(RCW.teleDistance * 2)) - RCW.teleDistance);
@@ -139,6 +141,8 @@ public class RCW {
         }
 
         world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1.0F, 1.0F);
+
+        RCW.spawnExplosionParticleAtEntity(player, 80);
 
         return null;
     }

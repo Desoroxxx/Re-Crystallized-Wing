@@ -32,8 +32,6 @@ public class CrystalWingBurnt extends Item {
                 return crystalWing.onItemRightClick(world, player, hand);
 
             RCW.randomTeleport(world, player);
-
-            RCW.spawnExplosionParticleAtEntity(player, world, 80);
         }
 
         return new ActionResult<>(EnumActionResult.PASS, itemStack);

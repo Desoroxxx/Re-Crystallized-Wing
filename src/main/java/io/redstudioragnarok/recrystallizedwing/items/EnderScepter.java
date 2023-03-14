@@ -47,6 +47,8 @@ public class EnderScepter extends Item {
                     chunkCoords = new BlockPos(chunkCoords.getX(), Math.max((int) player.posY, RCW.getHighestSolidBlock(world, chunkCoords, true)), chunkCoords.getZ());
                 }
 
+                RCW.spawnExplosionParticleAtEntity(player, 40);
+
                 player.setPositionAndUpdate(chunkCoords.getX() + 0.5D, chunkCoords.getY() + 0.1D, chunkCoords.getZ());
 
                 while (!world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty()) {
@@ -54,7 +56,8 @@ public class EnderScepter extends Item {
                 }
 
                 world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1.0F, 1.0F);
-                RCW.spawnExplosionParticleAtEntity(player, world, 40);
+
+                RCW.spawnExplosionParticleAtEntity(player, 40);
 
                 coolDown = 40;
             }
