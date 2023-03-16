@@ -20,8 +20,8 @@ public class BurntWing extends Item {
 
         maxStackSize = 1;
 
-        if (RCWConfig.common.burntwingdurability > 0)
-            this.setMaxDamage(RCWConfig.common.burntwingdurability - 1);
+        if (RCWConfig.common.durability.burntwingdurability > 0)
+            this.setMaxDamage(RCWConfig.common.durability.burntwingdurability - 1);
     }
 
     @Override
@@ -35,10 +35,10 @@ public class BurntWing extends Item {
 
             RCWUtils.randomTeleport(world, player);
 
-            if (RCWConfig.common.burntwingdurability > 0)
+            if (RCWConfig.common.durability.burntwingdurability > 0)
                 itemStack.damageItem(1, player);
 
-            player.getCooldownTracker().setCooldown(this, RCWConfig.common.burntwingcooldown);
+            player.getCooldownTracker().setCooldown(this, RCWConfig.common.cooldown.burntwingcooldown);
 
             return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
         }

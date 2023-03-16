@@ -20,8 +20,8 @@ public class EnderScepter extends Item {
 
         maxStackSize = 1;
 
-        if (RCWConfig.common.enderscepterdurability > 0)
-            this.setMaxDamage(RCWConfig.common.crystalwingdurability - 1);
+        if (RCWConfig.common.durability.enderscepterdurability > 0)
+            this.setMaxDamage(RCWConfig.common.durability.crystalwingdurability - 1);
     }
 
     @Override
@@ -39,10 +39,10 @@ public class EnderScepter extends Item {
 
                 RCWUtils.teleportPlayer(world, player, target.getX(), target.getY(), target.getZ(), 40);
 
-                if (RCWConfig.common.crystalwingdurability > 0)
+                if (RCWConfig.common.durability.crystalwingdurability > 0)
                     itemStack.damageItem(1, player);
 
-                player.getCooldownTracker().setCooldown(this, RCWConfig.common.endersceptercooldown);
+                player.getCooldownTracker().setCooldown(this, RCWConfig.common.cooldown.endersceptercooldown);
 
                 return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
             }

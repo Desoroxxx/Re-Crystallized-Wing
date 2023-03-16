@@ -15,14 +15,25 @@ public class RCWConfig {
 
     public static class Common {
 
-        public int crystalwingdurability = 8;
-        public int burntwingdurability = 4;
-        public int enderscepterdurability = 0;
+        public final Durability durability = new Durability();
+        public final Cooldown cooldown = new Cooldown();
+        
+        public static class Durability {
+
+            public int crystalwingdurability = 16;
+            public int burntwingdurability = 8;
+            public int enderscepterdurability = 64;
+        }
+
+        public static class Cooldown {
+
+            public int crystalwingcooldown = 256;
+            public int burntwingcooldown = 512;
+            public int endersceptercooldown = 20;
+        }
+
         public int enderscepterreachmult = 25;
         public int endersceptercreativereachmult = 4;
-        public int crystalwingcooldown = 80;
-        public int burntwingcooldown = 80;
-        public int endersceptercooldown = 20;
         public int randomteleportationdistance = 1000;
     }
 
