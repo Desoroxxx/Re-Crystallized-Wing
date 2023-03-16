@@ -1,6 +1,6 @@
 package io.redstudioragnarok.recrystallizedwing.items;
 
-import io.redstudioragnarok.recrystallizedwing.RCW;
+import io.redstudioragnarok.recrystallizedwing.utils.RCWUtils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +28,7 @@ public class BurningWing extends Item {
                     EntityPlayer player = (EntityPlayer) entity;
 
                     world.playSound(null, player.getPosition(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.MASTER, 1.0F, 1.0F);
-                    RCW.spawnExplosionParticleAtEntity(player, 160);
+                    RCWUtils.spawnExplosionParticleAtEntity(player, 160);
 
                     player.inventory.setInventorySlotContents(itemSlot, new ItemStack(burntWing));
                 }

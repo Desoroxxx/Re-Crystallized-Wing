@@ -1,7 +1,7 @@
 package io.redstudioragnarok.recrystallizedwing.items;
 
-import io.redstudioragnarok.recrystallizedwing.RCW;
 import io.redstudioragnarok.recrystallizedwing.config.RCWConfig;
+import io.redstudioragnarok.recrystallizedwing.utils.RCWUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +14,6 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import static io.redstudioragnarok.recrystallizedwing.RCW.burningWing;
-import static io.redstudioragnarok.recrystallizedwing.RCW.teleportPlayer;
 
 public class CrystalWing extends Item {
 
@@ -53,17 +52,17 @@ public class CrystalWing extends Item {
 
                     targetLocation = mutablePos.toImmutable();
 
-                    isSafe = RCW.verifyTeleportCoordinates(world, targetLocation);
+                    isSafe = RCWUtils.verifyTeleportCoordinates(world, targetLocation);
                 }
 
                 player.sendStatusMessage(new TextComponentTranslation("teleport.chatMessage"), RCWConfig.client.showinactionbar);
 
-                teleportPlayer(world, player, targetLocation.getX(), targetLocation.getY(), targetLocation.getZ(), 40);
+                RCWUtils.teleportPlayer(world, player, targetLocation.getX(), targetLocation.getY(), targetLocation.getZ(), 40);
             } else if (player.dimension == -1) {
                 world.playSound(null, player.getPosition(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.PLAYERS , 1.0F, 1.0F);
                 itemStack = new ItemStack(burningWing, 1);
             } else {
-                RCW.randomTeleport(world, player);
+                RCWUtils.randomTeleport(world, player);
             }
 
             if (RCWConfig.common.crystalwingdurability > 0)

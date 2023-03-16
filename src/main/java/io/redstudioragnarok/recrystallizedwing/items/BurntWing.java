@@ -1,7 +1,7 @@
 package io.redstudioragnarok.recrystallizedwing.items;
 
-import io.redstudioragnarok.recrystallizedwing.RCW;
 import io.redstudioragnarok.recrystallizedwing.config.RCWConfig;
+import io.redstudioragnarok.recrystallizedwing.utils.RCWUtils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -33,7 +33,7 @@ public class BurntWing extends Item {
             if (player.dimension == -1)
                 return crystalWing.onItemRightClick(world, player, hand);
 
-            RCW.randomTeleport(world, player);
+            RCWUtils.randomTeleport(world, player);
 
             if (RCWConfig.common.burntwingdurability > 0)
                 itemStack.damageItem(1, player);
