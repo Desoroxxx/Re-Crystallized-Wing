@@ -30,7 +30,7 @@ minecraft {
 }
 
 runClient {
-    args '--username=ReCrystalizedDev'
+    args '--username=Dev'
 }
 
 // Replace id, name, and version in `mcmod.info`
