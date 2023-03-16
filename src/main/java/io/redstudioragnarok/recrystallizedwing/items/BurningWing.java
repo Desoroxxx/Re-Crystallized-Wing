@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
-import static io.redstudioragnarok.recrystallizedwing.RCW.crystalWingBurnt;
+import static io.redstudioragnarok.recrystallizedwing.RCW.burntWing;
 
 public class BurningWing extends Item {
 
@@ -30,7 +30,7 @@ public class BurningWing extends Item {
                     world.playSound(null, player.getPosition(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.MASTER, 1.0F, 1.0F);
                     RCW.spawnExplosionParticleAtEntity(player, 160);
 
-                    player.inventory.setInventorySlotContents(itemSlot, new ItemStack(crystalWingBurnt));
+                    player.inventory.setInventorySlotContents(itemSlot, new ItemStack(burntWing));
                 }
             } else if (!entity.isBurning())
                 entity.setFire(2);

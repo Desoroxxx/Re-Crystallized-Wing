@@ -11,9 +11,40 @@ item.ender_scepter.name=Ender Scepter
 
 # Achievements
 
-achievement.enderScepter=Harnessing The Power Of The Void
-achievement.enderScepter.description=Harness the power of an ender eye with an ender scepter
+advancements.crystalWing.title=The Power Of Magical Winds
+advancements.crystalWing.description=Get a Crystal Wing.
 
-achievement.burntWing=To Hell And Back
-achievement.burntWing.description=Get a Burnt Wing by entering water with a Burning Wing.
+advancements.burntWing.title=To Hell And Back
+advancements.burntWing.description=Get a Burnt Wing by entering water with a Burning Wing.
+
+advancements.enderScepter.title=Harnessing The Power Of The Void
+advancements.enderScepter.description=Harness the power of an ender eye with an ender scepter.
+
+# Configuration
+
+recrystallizedwing.general.common=Common
+recrystallizedwing.general.common.tooltip=Common configuration for ReCrystallized Wing
+recrystallizedwing.general.common.crystalwingdurability=Crystal Wing durability
+recrystallizedwing.general.common.crystalwingdurability.tooltip=Max durability of the Crystal Wing, 0 means infinite durability.
+recrystallizedwing.general.common.burntwingdurability=Burnt Wing durability
+recrystallizedwing.general.common.burntwingdurability.tooltip=Max durability of the Burnt Wing, 0 means infinite durability.
+recrystallizedwing.general.common.enderscepterdurability=Ender Scepter durability
+recrystallizedwing.general.common.enderscepterdurability.tooltip=Max durability of the Ender Scepter, 0 means infinite durability.
+recrystallizedwing.general.common.enderscepterreachmult=Ender Scepter reach multiplier
+recrystallizedwing.general.common.enderscepterreachmult.tooltip=Reach multiplier of the Ender Scepter
+recrystallizedwing.general.common.endersceptercreativereachmult=Ender Scepter creative reach multiplier
+recrystallizedwing.general.common.endersceptercreativereachmult.tooltip=Creative reach multiplier of the Ender Scepter
+recrystallizedwing.general.common.crystalwingcooldown=Crystal Wing cooldown
+recrystallizedwing.general.common.crystalwingcooldown.tooltip=Cooldown between uses of the Crystal Wing
+recrystallizedwing.general.common.burntwingcooldown=Burnt Wing cooldown
+recrystallizedwing.general.common.burntwingcooldown.tooltip=Cooldown between uses of the Burnt Wing
+recrystallizedwing.general.common.endersceptercooldown=Ender Scepter cooldown
+recrystallizedwing.general.common.endersceptercooldown.tooltip=Cooldown between uses of the Ender Scepter
+recrystallizedwing.general.common.randomteleportationdistance=Random teleportation distance
+recrystallizedwing.general.common.randomteleportationdistance.tooltip=Random teleportation distance. determines how far should the player be teleported when random teleportation is used (Using a Crystal Wing in the end or using a Burnt Wing)
+
+recrystallizedwing.general.client=Client
+recrystallizedwing.general.client.tooltip=Client configuration for ReCrystallized Wing
+recrystallizedwing.general.client.showinactionbar=Show message in the action bar
+recrystallizedwing.general.client.showinactionbar.tooltip=If true show the message when you use the Crystal Wing in the action bar instead of the chat.
 

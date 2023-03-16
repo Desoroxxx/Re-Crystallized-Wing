@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * This class defines constants for ReCrystallized Wing.
+ * <p>
+ * They are automatically updated by Gradle on compile time.
  */
 public class ModReference {
 

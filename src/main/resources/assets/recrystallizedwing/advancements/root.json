@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "recrystallizedwing:crystal_wing"
+    },
+    "title": {
+      "translate": "advancements.crystalWing.title"
+    },
+    "description": {
+      "translate": "advancements.crystalWing.description"
+    },
+    "background": "minecraft:textures/blocks/end_bricks.png",
+    "hidden": true
+  },
+  "criteria": {
+    "stone_pickaxe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "recrystallizedwing:crystal_wing"
+          }
+        ]
+      }
+    }
+  }
+}

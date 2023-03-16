@@ -1,6 +1,7 @@
 package io.redstudioragnarok.recrystallizedwing.items;
 
 import io.redstudioragnarok.recrystallizedwing.RCW;
+import io.redstudioragnarok.recrystallizedwing.config.RCWConfig;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -10,21 +11,17 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
 import static io.redstudioragnarok.recrystallizedwing.RCW.crystalWing;
 
-public class BurnWing extends Item {
+public class BurntWing extends Item {
 
-    private final Random random = new Random();
-
-    public BurnWing() {
+    public BurntWing() {
         setCreativeTab(CreativeTabs.TRANSPORTATION);
 
         maxStackSize = 1;
 
-        if (RCW.burntWingDurability > 0)
-            this.setMaxDamage(RCW.burntWingDurability - 1);
+        if (RCWConfig.common.burntwingdurability > 0)
+            this.setMaxDamage(RCWConfig.common.burntwingdurability - 1);
     }
 
     @Override
@@ -38,10 +35,12 @@ public class BurnWing extends Item {
 
             RCW.randomTeleport(world, player);
 
-            if (RCW.burntWingDurability > 0)
+            if (RCWConfig.common.burntwingdurability > 0)
                 itemStack.damageItem(1, player);
 
-            player.getCooldownTracker().setCooldown(this, RCW.burntWingCooldown);
+            player.getCooldownTracker().setCooldown(this, RCWConfig.common.burntwingcooldown);
+
+            return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
         }
 
         return new ActionResult<>(EnumActionResult.PASS, itemStack);

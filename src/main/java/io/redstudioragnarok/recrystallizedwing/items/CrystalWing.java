@@ -1,20 +1,20 @@
 package io.redstudioragnarok.recrystallizedwing.items;
 
 import io.redstudioragnarok.recrystallizedwing.RCW;
+import io.redstudioragnarok.recrystallizedwing.config.RCWConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-import static io.redstudioragnarok.recrystallizedwing.RCW.crystalWingBurning;
+import static io.redstudioragnarok.recrystallizedwing.RCW.burningWing;
+import static io.redstudioragnarok.recrystallizedwing.RCW.teleportPlayer;
 
 public class CrystalWing extends Item {
 
@@ -23,12 +23,12 @@ public class CrystalWing extends Item {
 
         maxStackSize = 1;
 
-        if (RCW.crystalWingDurability > 0)
-            this.setMaxDamage(RCW.crystalWingDurability - 1);
+        if (RCWConfig.common.crystalwingdurability > 0)
+            this.setMaxDamage(RCWConfig.common.crystalwingdurability - 1);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(final World world, final EntityPlayer player, final EnumHand hand) {
         ItemStack itemStack = player.getHeldItem(hand);
 
         if (!world.isRemote) {
@@ -53,51 +53,27 @@ public class CrystalWing extends Item {
 
                     targetLocation = mutablePos.toImmutable();
 
-                    isSafe = RCW.verifyRespawnCoordinates(world, targetLocation);
+                    isSafe = RCW.verifyTeleportCoordinates(world, targetLocation);
                 }
 
-                player.sendStatusMessage(new TextComponentTranslation("teleport.chatMessage"), RCW.showInActionBar);
+                player.sendStatusMessage(new TextComponentTranslation("teleport.chatMessage"), RCWConfig.client.showinactionbar);
 
-                RCW.spawnExplosionParticleAtEntity(player, 80);
-
-                player.setPositionAndUpdate(targetLocation.getX(), targetLocation.getY(), targetLocation.getZ());
-
-                while (!world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty()) {
-                    player.setPositionAndUpdate(player.posX + 0.5, player.posY + 1, player.posZ + 0.5);
-                }
-
-                world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1.0F, 1.0F);
-
-                RCW.spawnExplosionParticleAtEntity(player, 80);
+                teleportPlayer(world, player, targetLocation.getX(), targetLocation.getY(), targetLocation.getZ(), 40);
             } else if (player.dimension == -1) {
-                itemStack = null;
                 world.playSound(null, player.getPosition(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.PLAYERS , 1.0F, 1.0F);
-                itemStack = new ItemStack(crystalWingBurning, 1);
-                return new ActionResult<>(EnumActionResult.FAIL, itemStack);
+                itemStack = new ItemStack(burningWing, 1);
             } else {
                 RCW.randomTeleport(world, player);
             }
 
-            if (RCW.crystalWingDurability > 0)
+            if (RCWConfig.common.crystalwingdurability > 0)
                 itemStack.damageItem(1, player);
 
-            player.getCooldownTracker().setCooldown(this, RCW.crystalWingCooldown);
+            player.getCooldownTracker().setCooldown(this, RCWConfig.common.crystalwingcooldown);
+
+            return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
         }
 
         return new ActionResult<>(EnumActionResult.PASS, itemStack);
-    }
-
-    @Override
-    public void onUpdate(ItemStack itemStack, World world, Entity entity, int i, boolean flag) {
-        if (itemStack.hasTagCompound()) {
-            NBTTagCompound tag = itemStack.getTagCompound();
-            short cooldown = tag.getShort("cooldown");
-            if (cooldown >= 0)
-                tag.setShort("cooldown", (short) (cooldown - 1));
-        } else {
-            NBTTagCompound tag = new NBTTagCompound();
-            tag.setShort("cooldown", (short) 0);
-            itemStack.setTagCompound(tag);
-        }
     }
 }
