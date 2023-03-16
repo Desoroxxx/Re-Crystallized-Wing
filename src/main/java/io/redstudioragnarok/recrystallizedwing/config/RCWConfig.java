@@ -17,11 +17,16 @@ public class RCWConfig {
 
         public final Durability durability = new Durability();
         public final Cooldown cooldown = new Cooldown();
-        
+
         public static class Durability {
 
+            @Config.RequiresMcRestart
             public int crystalwingdurability = 16;
+
+            @Config.RequiresMcRestart
             public int burntwingdurability = 8;
+            
+            @Config.RequiresMcRestart
             public int enderscepterdurability = 64;
         }
 
