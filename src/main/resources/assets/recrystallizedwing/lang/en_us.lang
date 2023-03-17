@@ -35,13 +35,13 @@ recrystallizedwing.general.common.durability.enderscepterdurability=Ender Scepte
 recrystallizedwing.general.common.durability.enderscepterdurability.tooltip=Max durability of the Ender Scepter, 0 means infinite durability.
 
 recrystallizedwing.general.common.cooldown=Cooldown
-recrystallizedwing.general.common.cooldown.tooltip=Configuration for the cooldown of items
+recrystallizedwing.general.common.cooldown.tooltip=Configuration for the cooldown of items in ticks
 recrystallizedwing.general.common.cooldown.crystalwingcooldown=Crystal Wing cooldown
-recrystallizedwing.general.common.cooldown.crystalwingcooldown.tooltip=Cooldown between uses of the Crystal Wing
+recrystallizedwing.general.common.cooldown.crystalwingcooldown.tooltip=Cooldown between uses of the Crystal Wing in ticks
 recrystallizedwing.general.common.cooldown.burntwingcooldown=Burnt Wing cooldown
-recrystallizedwing.general.common.cooldown.burntwingcooldown.tooltip=Cooldown between uses of the Burnt Wing
+recrystallizedwing.general.common.cooldown.burntwingcooldown.tooltip=Cooldown between uses of the Burnt Wing in ticks
 recrystallizedwing.general.common.cooldown.endersceptercooldown=Ender Scepter cooldown
-recrystallizedwing.general.common.cooldown.endersceptercooldown.tooltip=Cooldown between uses of the Ender Scepter
+recrystallizedwing.general.common.cooldown.endersceptercooldown.tooltip=Cooldown between uses of the Ender Scepter in ticks
 
 recrystallizedwing.general.common.enderscepterreachmult=Ender Scepter reach multiplier
 recrystallizedwing.general.common.enderscepterreachmult.tooltip=Reach multiplier of the Ender Scepter
