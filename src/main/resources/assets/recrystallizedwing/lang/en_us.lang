@@ -50,8 +50,8 @@ recrystallizedwing.general.common.endersceptercreativereachmult.tooltip=Creative
 recrystallizedwing.general.common.randomteleportationdistance=Random teleportation distance
 recrystallizedwing.general.common.randomteleportationdistance.tooltip=Random teleportation distance. determines how far should the player be teleported when random teleportation is used (Using a Crystal Wing in the end or using a Burnt Wing)
 
-recrystallizedwing.general.client=Client
-recrystallizedwing.general.client.tooltip=Client configuration for ReCrystallized Wing
-recrystallizedwing.general.client.showinactionbar=Show message in the action bar
-recrystallizedwing.general.client.showinactionbar.tooltip=If true show the message when you use the Crystal Wing in the action bar instead of the chat.
+recrystallizedwing.general.common.showinactionbar=Show message in the action bar
+recrystallizedwing.general.common.showinactionbar.tooltip=If true show the message when you use the Crystal Wing in the action bar instead of the chat.
+recrystallizedwing.general.common.nostalgicsounds=Nostalgic Sounds
+recrystallizedwing.general.common.nostalgicsounds.tooltip=If true uses the sounds from the original Crystal Wing 1.2.5
 

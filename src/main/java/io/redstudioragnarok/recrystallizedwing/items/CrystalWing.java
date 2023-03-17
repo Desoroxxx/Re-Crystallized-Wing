@@ -4,6 +4,7 @@ import io.redstudioragnarok.recrystallizedwing.config.RCWConfig;
 import io.redstudioragnarok.recrystallizedwing.utils.RCWUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -16,6 +17,9 @@ import net.minecraft.world.World;
 import static io.redstudioragnarok.recrystallizedwing.RCW.burningWing;
 
 public class CrystalWing extends Item {
+
+    private boolean playNotes;
+    private int startTick;
 
     public CrystalWing() {
         setCreativeTab(CreativeTabs.TRANSPORTATION);
@@ -55,9 +59,13 @@ public class CrystalWing extends Item {
                     isSafe = RCWUtils.verifyTeleportCoordinates(world, targetLocation);
                 }
 
-                player.sendStatusMessage(new TextComponentTranslation("teleport.chatMessage"), RCWConfig.client.showinactionbar);
+                player.sendStatusMessage(new TextComponentTranslation("teleport.chatMessage"), RCWConfig.common.showinactionbar);
 
                 RCWUtils.teleportPlayer(world, player, targetLocation.getX(), targetLocation.getY(), targetLocation.getZ(), 40);
+
+                if (RCWConfig.common.nostalgicsounds)
+                    playEffects(player);
+
             } else if (player.dimension == -1) {
                 world.playSound(null, player.getPosition(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.PLAYERS , 1.0F, 1.0F);
                 itemStack = new ItemStack(burningWing, 1);
@@ -74,5 +82,29 @@ public class CrystalWing extends Item {
         }
 
         return new ActionResult<>(EnumActionResult.PASS, itemStack);
+    }
+
+    @Override
+    public void onUpdate(final ItemStack itemStack, final World world, final Entity entity, final int itemSlot, final boolean flag) {
+        if (!world.isRemote && this.playNotes) {
+            EntityPlayer player = (EntityPlayer) entity;
+
+            switch ((player.ticksExisted - this.startTick)) {
+                case 1:
+                    RCWUtils.playPlingAtPitch(world, player, 0.79F);
+                    break;
+                case 5:
+                    RCWUtils.playPlingAtPitch(world, player, 1.18F);
+                    break;
+                case 7:
+                    RCWUtils.playPlingAtPitch(world, player, 1.49F);
+                    break;
+            }
+        }
+    }
+
+    public void playEffects(EntityPlayer player) {
+        this.playNotes = true;
+        this.startTick = player.ticksExisted;
     }
 }

@@ -127,7 +127,8 @@ public final class RCWUtils {
         while (!world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty())
             player.setPositionAndUpdate(player.posX, player.posY + 1, player.posZ);
 
-        world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1, 1);
+        if (!RCWConfig.common.nostalgicsounds)
+            world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.MASTER, 1, 1);
 
         spawnExplosionParticleAtEntity(player, particleAmount);
     }
@@ -155,5 +156,16 @@ public final class RCWUtils {
         final Vec3d endPosition = startPosition.add((sinYaw * cosPitch) * reachMultiplier, sinPitch * reachMultiplier, (cosYaw * cosPitch) * reachMultiplier);
 
         return world.rayTraceBlocks(startPosition, endPosition, false, true, false);
+    }
+
+    /**
+     * Plays a short "pling" sound effect in the world with a specific pitch at the player location.
+     *
+     * @param pitch An integer value representing the pitch of the "pling" sound to be played, measured in semitones relative to the standard A440 tuning
+     * @param world The world in which to play the "pling" sound effect
+     * @param entityplayer The player whose position to use for the sound
+     */
+    public static void playPlingAtPitch(World world, EntityPlayer entityplayer, float pitch) {
+        world.playSound(null, entityplayer.getPosition(), SoundEvents.BLOCK_NOTE_PLING, SoundCategory.MASTER, 0.5F, pitch);
     }
 }

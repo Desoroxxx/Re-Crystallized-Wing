@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Config(modid = ModReference.id, name = ModReference.name)
 public class RCWConfig {
 
-    public static final Client client = new Client();
     public static final Common common = new Common();
 
     public static class Common {
@@ -40,11 +39,9 @@ public class RCWConfig {
         public int enderscepterreachmult = 25;
         public int endersceptercreativereachmult = 4;
         public int randomteleportationdistance = 1000;
-    }
-
-    public static class Client {
 
         public boolean showinactionbar = true;
+        public boolean nostalgicsounds = false;
     }
 
     @Mod.EventBusSubscriber(modid = ModReference.id)
