@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
@@ -26,8 +27,10 @@ public class CrystalWing extends Item {
 
         maxStackSize = 1;
 
-        if (RCWConfig.common.durability.crystalwingdurability > 0)
+        if (RCWConfig.common.durability.crystalwingdurability > 1)
             this.setMaxDamage(RCWConfig.common.durability.crystalwingdurability - 1);
+        else if (RCWConfig.common.durability.crystalwingdurability == 1)
+            this.setMaxDamage(1);
     }
 
     @Override
@@ -73,7 +76,9 @@ public class CrystalWing extends Item {
                 RCWUtils.randomTeleport(world, player);
             }
 
-            if (RCWConfig.common.durability.crystalwingdurability > 0)
+            if (RCWConfig.common.durability.crystalwingdurability == 1)
+                itemStack.damageItem(2, player);
+            else if (RCWConfig.common.durability.crystalwingdurability > 0)
                 itemStack.damageItem(1, player);
 
             player.getCooldownTracker().setCooldown(this, RCWConfig.common.cooldown.crystalwingcooldown);
@@ -101,6 +106,10 @@ public class CrystalWing extends Item {
                     break;
             }
         }
+    }
+
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return EnumRarity.UNCOMMON;
     }
 
     public void playEffects(EntityPlayer player) {

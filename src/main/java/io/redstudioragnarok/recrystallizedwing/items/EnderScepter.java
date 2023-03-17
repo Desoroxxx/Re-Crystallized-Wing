@@ -4,6 +4,7 @@ import io.redstudioragnarok.recrystallizedwing.config.RCWConfig;
 import io.redstudioragnarok.recrystallizedwing.utils.RCWUtils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -20,8 +21,10 @@ public class EnderScepter extends Item {
 
         maxStackSize = 1;
 
-        if (RCWConfig.common.durability.enderscepterdurability > 0)
+        if (RCWConfig.common.durability.enderscepterdurability > 1)
             this.setMaxDamage(RCWConfig.common.durability.crystalwingdurability - 1);
+        else if (RCWConfig.common.durability.enderscepterdurability == 1)
+            this.setMaxDamage(1);
     }
 
     @Override
@@ -39,7 +42,9 @@ public class EnderScepter extends Item {
 
                 RCWUtils.teleportPlayer(world, player, target.getX(), target.getY(), target.getZ(), 40);
 
-                if (RCWConfig.common.durability.crystalwingdurability > 0)
+                if (RCWConfig.common.durability.enderscepterdurability == 1)
+                    itemStack.damageItem(2, player);
+                else if (RCWConfig.common.durability.enderscepterdurability > 0)
                     itemStack.damageItem(1, player);
 
                 player.getCooldownTracker().setCooldown(this, RCWConfig.common.cooldown.endersceptercooldown);
@@ -49,5 +54,9 @@ public class EnderScepter extends Item {
         }
 
         return new ActionResult<>(EnumActionResult.PASS, itemStack);
+    }
+
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return EnumRarity.UNCOMMON;
     }
 }

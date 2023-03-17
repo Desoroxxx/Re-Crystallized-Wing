@@ -4,6 +4,7 @@ import io.redstudioragnarok.recrystallizedwing.config.RCWConfig;
 import io.redstudioragnarok.recrystallizedwing.utils.RCWUtils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -20,8 +21,10 @@ public class BurntWing extends Item {
 
         maxStackSize = 1;
 
-        if (RCWConfig.common.durability.burntwingdurability > 0)
+        if (RCWConfig.common.durability.burntwingdurability > 1)
             this.setMaxDamage(RCWConfig.common.durability.burntwingdurability - 1);
+        else if (RCWConfig.common.durability.burntwingdurability == 1)
+            this.setMaxDamage(1);
     }
 
     @Override
@@ -35,7 +38,9 @@ public class BurntWing extends Item {
 
             RCWUtils.randomTeleport(world, player);
 
-            if (RCWConfig.common.durability.burntwingdurability > 0)
+            if (RCWConfig.common.durability.burntwingdurability == 1)
+                itemStack.damageItem(2, player);
+            else if (RCWConfig.common.durability.burntwingdurability > 0)
                 itemStack.damageItem(1, player);
 
             player.getCooldownTracker().setCooldown(this, RCWConfig.common.cooldown.burntwingcooldown);
@@ -44,5 +49,9 @@ public class BurntWing extends Item {
         }
 
         return new ActionResult<>(EnumActionResult.PASS, itemStack);
+    }
+
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return EnumRarity.COMMON;
     }
 }

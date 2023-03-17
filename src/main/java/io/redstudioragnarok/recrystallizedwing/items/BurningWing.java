@@ -5,6 +5,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -35,5 +36,9 @@ public class BurningWing extends Item {
             } else if (!entity.isBurning())
                 entity.setFire(2);
         }
+    }
+
+    public EnumRarity getRarity(ItemStack itemStack) {
+        return EnumRarity.COMMON;
     }
 }
