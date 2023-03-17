@@ -14,11 +14,11 @@
         {
           "type": "item",
           "name": "recrystallizedwing:crystal_wing",
-          "weight": 40
+          "weight": 10
         },
         {
           "type": "empty",
-          "weight": 60
+          "weight": 90
         }
       ]
     }

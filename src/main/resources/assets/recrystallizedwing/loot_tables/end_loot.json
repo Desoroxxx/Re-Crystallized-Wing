@@ -14,11 +14,11 @@
         {
           "type": "item",
           "name": "recrystallizedwing:ender_scepter",
-          "weight": 40
+          "weight": 15
         },
         {
           "type": "empty",
-          "weight": 60
+          "weight": 85
         }
       ]
     }
