@@ -23,7 +23,7 @@ advancements.enderScepter.description=Harness the power of an ender eye with an 
 # Configuration
 
 recrystallizedwing.general.common=Common
-recrystallizedwing.general.common.tooltip=Common configuration for ReCrystallized Wing
+recrystallizedwing.general.common.tooltip=Common configuration for Re-Crystallized Wing
 
 recrystallizedwing.general.common.durability=Durability
 recrystallizedwing.general.common.durability.tooltip=Configuration for the durability of items

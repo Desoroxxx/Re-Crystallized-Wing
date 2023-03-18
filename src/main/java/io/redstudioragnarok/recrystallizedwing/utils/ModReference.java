@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class defines constants for ReCrystallized Wing.
+ * This class defines constants for Re-Crystallized Wing.
  * <p>
  * They are automatically updated by Gradle on compile time.
  */
