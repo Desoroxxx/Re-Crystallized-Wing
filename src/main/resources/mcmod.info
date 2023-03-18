@@ -8,7 +8,6 @@
     "url": "https://www.curseforge.com/minecraft/mc-mods/rcw",
     "authorList": ["Red Studio"],
     "credits": "Desoroxxx, bspkrs",
-    "logoFile": "assets/rcw/textures/items/crystal_wing.png",
-    "screenshots": []
+    "logoFile": "assets/rcw/textures/items/crystal_wing.png"
   }
 ]
