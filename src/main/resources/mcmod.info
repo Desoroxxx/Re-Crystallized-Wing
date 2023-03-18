@@ -1,7 +1,7 @@
 [
   {
     "modid": "${id}",
-    "name": "${name}",
+    "name": "Re-Crystallized Wing",
     "description": "A rewrite of Crystallized Wing for 1.12",
     "version": "${version}",
     "mcversion": "1.12.2",
