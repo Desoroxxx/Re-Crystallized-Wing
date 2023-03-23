@@ -5,6 +5,8 @@
 
 <a href="https://www.buymeacoffee.com/desoroxxx" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-red.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
+![Crystal Wings](https://user-images.githubusercontent.com/82710983/227248202-98803c9f-5cae-44fe-8d8d-102ffc7dd9c6.png)
+
 # Re-Crystallized Wing
 
 Re-Crystallized Wing is a 1.12.2 port of Crystal Wing by bspkrs from 1.8.9, which itself was a port of Crystal Wing by DaftPVF from 1.2.5.
