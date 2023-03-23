@@ -7,22 +7,24 @@
 
 # Re-Crystallized Wing
 
-Re-Crystallized Wing is a 1.12.2 port of Crystal Wing by bspkrs.
+Re-Crystallized Wing is a 1.12.2 port of Crystal Wing by bspkrs from 1.8.9, which itself was a port of Crystal Wing by DaftPVF from 1.2.5.
 
 With helpful items you will be able to travel more easily, and even save yourself from risky situations.
 
 - The Crystal Wing will get you back to your home (*Using it in the somewhere else than the overworld might yield different results*)
 - The Ender Scepter harnesses the power of the ender pearl by allowing you to teleport wherever you look whenever you want.
 
+With in depth configs, you can customize everything, the defaults are for a more modern and balanced experience, there are also config options tailored for nostalgia like the nostalgic sounds from Crystal Wing 1.2.5.
+
 ## Want to have your own mod or support me?
 
-If you're looking for a mod but don't have the development skills or time, consider commissioning me!
-My commissions are currently open and I would be happy to create a custom mod to fit your needs as long as you provide assets.
+If you are looking for a mod but do not have the development skills or time, consider commissioning me!
+My commissions are currently open, and I would be happy to create a custom mod to fit your needs as long as you provide assets.
 
 [Commissions]
 
-You can also support me on a monthly basis by becoming a member.
-To thank you will have the possibility to access exlcusive post and messages, Discord channel for WIP content, and even access to unreleased Prototypes or WIP Projects.
+You can also support me monthly by becoming a member.
+To thank you will have the possibility to access exclusive post and messages, Discord channel for WIP content, and even access to unreleased Prototypes or WIP Projects.
 
 [Membership]
 
