@@ -9,6 +9,8 @@
 
 # Re-Crystallized Wing
 
+Harness the power of the Magical Winds and the End to travel easily!
+
 Re-Crystallized Wing is a 1.12.2 port of Crystal Wing by bspkrs from 1.8.9, which itself was a port of Crystal Wing by DaftPVF from 1.2.5.
 
 With helpful items you will be able to travel more easily, and even save yourself from risky situations.
