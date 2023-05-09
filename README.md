@@ -1,9 +1,12 @@
-[![Discord](https://img.shields.io/discord/807316234436608020?color=586AEA&style=for-the-badge&label=Discord&logo=discord)](https://discord.gg/hKpUYx7VwS)
-[![Curse Forge](https://cf.way2muchnoise.eu/title/839163_Get_%20.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/rcw)
-[![Forge Version](https://img.shields.io/badge/Minecraft%20Forge-14.23.5.2847-yellow.svg?style=for-the-badge)](http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.12.2.html)
-[![GitHub repo size](https://img.shields.io/github/repo-size/Desoroxxx/Re-Crystallized-Wing?label=Repository%20Size&style=for-the-badge)](https://github.com/Desoroxxx/Re-Crystallized-Wing)
+[![Curse Forge](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg)](https://www.curseforge.com/minecraft/mc-mods/rcw)
+[![Modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/mod/rcw)
 
-<a href="https://www.buymeacoffee.com/desoroxxx" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-red.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+[![Buy Me a Coffee](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/buymeacoffee-singular_vector.svg)](https://www.buymeacoffee.com/desoroxxx)
+[![Discord](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg)](https://discord.gg/hKpUYx7VwS)
+
+[![Java 8](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/built-with/java8_vector.svg)](https://adoptium.net/temurin/releases/?version=8)
+[![Gradle](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/built-with/gradle_vector.svg)](https://gradle.org/)
+[![Forge](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg)](http://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.12.2.html)
 
 ![Crystal Wings](https://user-images.githubusercontent.com/82710983/227248202-98803c9f-5cae-44fe-8d8d-102ffc7dd9c6.png)
 
