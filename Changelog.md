@@ -8,4 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Fixed Ender Scepter creative reach multiplier always being applied
 - Fixed Ender Scepter using the Crystal Wing configuration for durability
+
+
+### Internal
+
+- Switched to [Raven] amazing [RetroFuturaGradle]
+- Updated to Gradle 8.1.1
+
+[Raven]: https://github.com/eigenraven
+[RetroFuturaGradle]: https://github.com/GTNewHorizons/RetroFuturaGradle
