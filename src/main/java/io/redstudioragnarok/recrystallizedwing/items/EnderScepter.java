@@ -22,7 +22,7 @@ public class EnderScepter extends Item {
         maxStackSize = 1;
 
         if (RCWConfig.common.durability.enderscepterdurability > 1)
-            this.setMaxDamage(RCWConfig.common.durability.crystalwingdurability - 1);
+            this.setMaxDamage(RCWConfig.common.durability.enderscepterdurability - 1);
         else if (RCWConfig.common.durability.enderscepterdurability == 1)
             this.setMaxDamage(1);
     }
