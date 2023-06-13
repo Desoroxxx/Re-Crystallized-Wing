@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased] Re-Crystallized Wing Version 1.1 Changelog
 
+## Changed
+
+- `Ender Scepter Reach Mutliplier` config got changed to `Ender Scepter Reach` and is now in blocks
+
 ### Fixed
 
 - Fixed Ender Scepter creative reach multiplier always being applied

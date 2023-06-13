@@ -151,7 +151,7 @@ public final class RCWUtils {
         final float cosPitch = -MathHelper.cos(-pitch * 0.017453292F);
         final float sinPitch = MathHelper.sin(-pitch * 0.017453292F);
 
-        final float reachMultiplier = RCWConfig.common.enderscepterreachmult * RCWConfig.common.endersceptercreativereachmult;
+        final float reachMultiplier = RCWConfig.common.enderscepterreach * (player.isCreative() ? RCWConfig.common.endersceptercreativereachmult : 1);
 
         final Vec3d endPosition = startPosition.add((sinYaw * cosPitch) * reachMultiplier, sinPitch * reachMultiplier, (cosYaw * cosPitch) * reachMultiplier);
 

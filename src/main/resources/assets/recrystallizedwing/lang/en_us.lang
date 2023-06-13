@@ -43,7 +43,7 @@ recrystallizedwing.general.common.cooldown.burntwingcooldown.tooltip=Cooldown be
 recrystallizedwing.general.common.cooldown.endersceptercooldown=Ender Scepter cooldown
 recrystallizedwing.general.common.cooldown.endersceptercooldown.tooltip=Cooldown between uses of the Ender Scepter in ticks
 
-recrystallizedwing.general.common.enderscepterreachmult=Ender Scepter reach multiplier
+recrystallizedwing.general.common.enderscepterreach=Ender Scepter reach, in blocks
 recrystallizedwing.general.common.enderscepterreachmult.tooltip=Reach multiplier of the Ender Scepter
 recrystallizedwing.general.common.endersceptercreativereachmult=Ender Scepter creative reach multiplier
 recrystallizedwing.general.common.endersceptercreativereachmult.tooltip=Creative reach multiplier of the Ender Scepter

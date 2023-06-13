@@ -36,7 +36,7 @@ public class RCWConfig {
             public int endersceptercooldown = 20;
         }
 
-        public int enderscepterreachmult = 25;
+        public int enderscepterreach = 60;
         public int endersceptercreativereachmult = 4;
         public int randomteleportationdistance = 1000;
 
