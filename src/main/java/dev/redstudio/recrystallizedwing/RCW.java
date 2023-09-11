@@ -19,6 +19,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static dev.redstudio.recrystallizedwing.utils.ModReference.ID;
 import static dev.redstudio.recrystallizedwing.utils.ModReference.NAME;
 import static dev.redstudio.recrystallizedwing.utils.ModReference.VERSION;
@@ -38,13 +41,43 @@ import static dev.redstudio.recrystallizedwing.utils.ModReference.VERSION;
 @Mod(modid = ID, name = NAME, version = VERSION, updateJSON = "https://raw.githubusercontent.com/Red-Studio-Ragnarok/ReCrystallized-Wing/main/update.json")
 public final class RCW {
 
+    private static final Map<String, ResourceLocation> LOOT_TABLE_MAP = new HashMap<>();
+
+    private static final ResourceLocation OVERWORLD_LOOT_TABLE = new ResourceLocation(ID, "overworld_loot");
+    private static final ResourceLocation NETHER_LOOT_TABLE = new ResourceLocation(ID, "nether_loot");
+    private static final ResourceLocation END_LOOT_TABLE = new ResourceLocation(ID, "end_loot");
+
     public static Item crystalWing, burningWing, burntWing, enderScepter;
 
+    static {
+        LOOT_TABLE_MAP.put("minecraft:chests/desert_pyramid", OVERWORLD_LOOT_TABLE);
+        LOOT_TABLE_MAP.put("minecraft:chests/spawn_bonus_chest", OVERWORLD_LOOT_TABLE);
+        LOOT_TABLE_MAP.put("minecraft:chests/simple_dungeon", OVERWORLD_LOOT_TABLE);
+        LOOT_TABLE_MAP.put("minecraft:chests/stronghold_library", OVERWORLD_LOOT_TABLE);
+        LOOT_TABLE_MAP.put("minecraft:chests/nether_bridge", NETHER_LOOT_TABLE);
+        LOOT_TABLE_MAP.put("minecraft:chests/end_city_treasure", END_LOOT_TABLE);
+    }
+
     @Mod.EventHandler
-    public void init(final FMLInitializationEvent initializationEvent) {
-        LootTableList.register(new ResourceLocation(ID, "end_loot"));
-        LootTableList.register(new ResourceLocation(ID, "nether_loot"));
-        LootTableList.register(new ResourceLocation(ID, "overworld_loot"));
+    public static void init(final FMLInitializationEvent initializationEvent) {
+        LootTableList.register(OVERWORLD_LOOT_TABLE);
+        LootTableList.register(NETHER_LOOT_TABLE);
+        LootTableList.register(END_LOOT_TABLE);
+    }
+
+    @SubscribeEvent
+    public static void lootTableLoad(final LootTableLoadEvent lootTableLoadEvent) {
+        final ResourceLocation lootTableResourceLocation = LOOT_TABLE_MAP.get(lootTableLoadEvent.getName().toString());
+
+        if (lootTableResourceLocation == null)
+            return;
+
+        final String lootTableName = lootTableResourceLocation.getPath() + "_loot";
+
+        final LootEntry lootEntryTable = new LootEntryTable(lootTableResourceLocation, 1, 1, new LootCondition[0], lootTableName);
+        final LootPool lootPool = new LootPool(new LootEntry[]{lootEntryTable}, new LootCondition[0], new RandomValueRange(1, 2), new RandomValueRange(1, 2), lootTableName);
+
+        lootTableLoadEvent.getTable().addPool(lootPool);
     }
 
     @SubscribeEvent
@@ -55,26 +88,6 @@ public final class RCW {
         enderScepter = new EnderScepter().setTranslationKey("ender_scepter").setRegistryName(ID, "ender_scepter");
 
         itemRegistryEvent.getRegistry().registerAll(crystalWing, burningWing, burntWing, enderScepter);
-    }
-
-    @SubscribeEvent
-    public void lootTableLoad(LootTableLoadEvent lootTableLoadEvent) {
-        if (lootTableLoadEvent.getName().toString().equals("minecraft:chests/end_city_treasure")) {
-            final LootEntry lootEntryTable = new LootEntryTable(new ResourceLocation(ID, "end_loot"), 1, 1, new LootCondition[0], "end_loot");
-            final LootPool lootPool = new LootPool(new LootEntry[]{lootEntryTable}, new LootCondition[0], new RandomValueRange(1, 2), new RandomValueRange(1, 2), "end_loot");
-
-            lootTableLoadEvent.getTable().addPool(lootPool);
-        } else if (lootTableLoadEvent.getName().toString().equals("minecraft:chests/nether_bridge")) {
-            final LootEntry lootEntryTable = new LootEntryTable(new ResourceLocation(ID, "nether_loot"), 1, 1, new LootCondition[0], "nether_loot");
-            final LootPool lootPool = new LootPool(new LootEntry[]{lootEntryTable}, new LootCondition[0], new RandomValueRange(1, 2), new RandomValueRange(1, 2), "nether_loot");
-
-            lootTableLoadEvent.getTable().addPool(lootPool);
-        } else if (lootTableLoadEvent.getName().toString().equals("minecraft:chests/desert_pyramid") || lootTableLoadEvent.getName().toString().equals("minecraft:chests/spawn_bonus_chest") || lootTableLoadEvent.getName().toString().equals("minecraft:chests/simple_dungeon") || lootTableLoadEvent.getName().toString().equals("minecraft:chests/simple_dungeon") || lootTableLoadEvent.getName().toString().equals("minecraft:chests/stronghold_library")) {
-            final LootEntry lootEntryTable = new LootEntryTable(new ResourceLocation(ID, "overworld_loot"), 1, 1, new LootCondition[0], "overworld_loot");
-            final LootPool lootPool = new LootPool(new LootEntry[]{lootEntryTable}, new LootCondition[0], new RandomValueRange(1, 2), new RandomValueRange(1, 2), "overworld_loot");
-
-            lootTableLoadEvent.getTable().addPool(lootPool);
-        }
     }
 
     @SubscribeEvent
