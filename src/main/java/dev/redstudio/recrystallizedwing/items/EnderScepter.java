@@ -1,11 +1,9 @@
-package io.redstudioragnarok.recrystallizedwing.items;
+package dev.redstudio.recrystallizedwing.items;
 
-import io.redstudioragnarok.recrystallizedwing.config.RCWConfig;
-import io.redstudioragnarok.recrystallizedwing.utils.RCWUtils;
-import net.minecraft.creativetab.CreativeTabs;
+import dev.redstudio.recrystallizedwing.config.RCWConfig;
+import dev.redstudio.recrystallizedwing.utils.RCWUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -14,17 +12,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EnderScepter extends Item {
+public final class EnderScepter extends BaseItem {
 
     public EnderScepter() {
-        setCreativeTab(CreativeTabs.TRANSPORTATION);
-
-        maxStackSize = 1;
-
-        if (RCWConfig.common.durability.enderscepterdurability > 1)
-            this.setMaxDamage(RCWConfig.common.durability.enderscepterdurability - 1);
-        else if (RCWConfig.common.durability.enderscepterdurability == 1)
-            this.setMaxDamage(1);
+        super(RCWConfig.common.durability.enderScepterDurability);
     }
 
     @Override
@@ -40,14 +31,14 @@ public class EnderScepter extends Item {
                 if (player.capabilities.isFlying)
                     target.setY(Math.max((int) player.posY, RCWUtils.getHighestSolidBlock(world, target, true)));
 
-                RCWUtils.teleportPlayer(world, player, target.getX(), target.getY(), target.getZ(), 40);
+                RCWUtils.teleportPlayer(world, player, target, 40);
 
-                if (RCWConfig.common.durability.enderscepterdurability == 1)
+                if (RCWConfig.common.durability.enderScepterDurability == 1)
                     itemStack.damageItem(2, player);
-                else if (RCWConfig.common.durability.enderscepterdurability > 0)
+                else if (RCWConfig.common.durability.enderScepterDurability > 0)
                     itemStack.damageItem(1, player);
 
-                player.getCooldownTracker().setCooldown(this, RCWConfig.common.cooldown.endersceptercooldown);
+                player.getCooldownTracker().setCooldown(this, RCWConfig.common.cooldown.enderScepterCooldown);
 
                 return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
             }
@@ -56,7 +47,7 @@ public class EnderScepter extends Item {
         return new ActionResult<>(EnumActionResult.PASS, itemStack);
     }
 
-    public EnumRarity getRarity(ItemStack itemStack) {
+    public EnumRarity getForgeRarity(final ItemStack itemStack) {
         return EnumRarity.UNCOMMON;
     }
 }

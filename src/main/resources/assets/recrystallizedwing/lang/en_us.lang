@@ -1,16 +1,13 @@
 # General
-
 teleport.chatMessage=Magical winds brought you home
 
 # Items
-
 item.crystal_wing.name=Crystal Wing
 item.burnt_wing.name=Burnt Wing
 item.burning_wing.name=Burning Wing
 item.ender_scepter.name=Ender Scepter
 
 # Achievements
-
 advancements.crystalWing.title=The Power Of Magical Winds
 advancements.crystalWing.description=Get a Crystal Wing.
 
@@ -21,12 +18,23 @@ advancements.enderScepter.title=Harnessing The End
 advancements.enderScepter.description=Harness the power of an ender eye with an ender scepter.
 
 # Configuration
-
 recrystallizedwing.general.common=Common
 recrystallizedwing.general.common.tooltip=Common configuration for Re-Crystallized Wing
 
+recrystallizedwing.general.common.showinactionbar=Show message in the action bar
+recrystallizedwing.general.common.showinactionbar.tooltip=If true show the message when you use the Crystal Wing in the action bar instead of the chat.
+recrystallizedwing.general.common.nostalgicsounds=Nostalgic Sounds
+recrystallizedwing.general.common.nostalgicsounds.tooltip=If true uses the sounds from the original Crystal Wing 1.2.5
+recrystallizedwing.general.common.enderscepterreach=Ender Scepter reach, in blocks
+recrystallizedwing.general.common.enderscepterreachmult.tooltip=Reach multiplier of the Ender Scepter
+recrystallizedwing.general.common.endersceptercreativereachmult=Ender Scepter creative reach multiplier
+recrystallizedwing.general.common.endersceptercreativereachmult.tooltip=Creative reach multiplier of the Ender Scepter
+recrystallizedwing.general.common.randomteleportationdistance=Random teleportation distance
+recrystallizedwing.general.common.randomteleportationdistance.tooltip=Random teleportation distance. determines how far should the player be teleported when random teleportation is used (Using a Crystal Wing in the end or using a Burnt Wing)
+
 recrystallizedwing.general.common.durability=Durability
 recrystallizedwing.general.common.durability.tooltip=Configuration for the durability of items
+
 recrystallizedwing.general.common.durability.crystalwingdurability=Crystal Wing durability
 recrystallizedwing.general.common.durability.crystalwingdurability.tooltip=Max durability of the Crystal Wing, 0 means infinite durability.
 recrystallizedwing.general.common.durability.burntwingdurability=Burnt Wing durability
@@ -36,22 +44,11 @@ recrystallizedwing.general.common.durability.enderscepterdurability.tooltip=Max 
 
 recrystallizedwing.general.common.cooldown=Cooldown
 recrystallizedwing.general.common.cooldown.tooltip=Configuration for the cooldown of items in ticks
+
 recrystallizedwing.general.common.cooldown.crystalwingcooldown=Crystal Wing cooldown
 recrystallizedwing.general.common.cooldown.crystalwingcooldown.tooltip=Cooldown between uses of the Crystal Wing in ticks
 recrystallizedwing.general.common.cooldown.burntwingcooldown=Burnt Wing cooldown
 recrystallizedwing.general.common.cooldown.burntwingcooldown.tooltip=Cooldown between uses of the Burnt Wing in ticks
 recrystallizedwing.general.common.cooldown.endersceptercooldown=Ender Scepter cooldown
 recrystallizedwing.general.common.cooldown.endersceptercooldown.tooltip=Cooldown between uses of the Ender Scepter in ticks
-
-recrystallizedwing.general.common.enderscepterreach=Ender Scepter reach, in blocks
-recrystallizedwing.general.common.enderscepterreachmult.tooltip=Reach multiplier of the Ender Scepter
-recrystallizedwing.general.common.endersceptercreativereachmult=Ender Scepter creative reach multiplier
-recrystallizedwing.general.common.endersceptercreativereachmult.tooltip=Creative reach multiplier of the Ender Scepter
-recrystallizedwing.general.common.randomteleportationdistance=Random teleportation distance
-recrystallizedwing.general.common.randomteleportationdistance.tooltip=Random teleportation distance. determines how far should the player be teleported when random teleportation is used (Using a Crystal Wing in the end or using a Burnt Wing)
-
-recrystallizedwing.general.common.showinactionbar=Show message in the action bar
-recrystallizedwing.general.common.showinactionbar.tooltip=If true show the message when you use the Crystal Wing in the action bar instead of the chat.
-recrystallizedwing.general.common.nostalgicsounds=Nostalgic Sounds
-recrystallizedwing.general.common.nostalgicsounds.tooltip=If true uses the sounds from the original Crystal Wing 1.2.5
 
