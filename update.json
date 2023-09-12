@@ -1,11 +1,12 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/rcw",
   "promos": {
-    "1.12.2-latest": "1.1",
-    "1.12.2-recommended": "1.1"
+    "1.12.2-latest": "1.2",
+    "1.12.2-recommended": "1.2"
   },
   "1.12.2":{
-    "1.1":"https://github.com/Desoroxxx/Re-Crystallized-Wing/blob/main/Changelog.md#re-crystallized-wing-version-11-changelog---2023-6-13",
+    "1.2":"https://github.com/Desoroxxx/Re-Crystallized-Wing/blob/1.12.2/Changelog.md#re-crystallized-wing-version-12-changelog---2023-09-12",
+    "1.1":"https://github.com/Desoroxxx/Re-Crystallized-Wing/blob/1.12.2/Changelog.md#re-crystallized-wing-version-11-changelog---2023-6-13",
     "1.0":"Initial release"
 }
 }
