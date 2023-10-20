@@ -1,30 +1,80 @@
 package dev.redstudio.recrystallizedwing;
 
+import dev.redstudio.recrystallizedwing.config.RCWClientConfig;
+import dev.redstudio.recrystallizedwing.config.RCWServerConfig;
 import dev.redstudio.recrystallizedwing.items.BurningWing;
 import dev.redstudio.recrystallizedwing.items.BurntWing;
 import dev.redstudio.recrystallizedwing.items.CrystalWing;
 import dev.redstudio.recrystallizedwing.items.EnderScepter;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.*;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
+import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.forgespi.locating.IModFile;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.event.AddPackFindersEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.AddPackFindersEvent;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.event.level.BlockEvent.FluidPlaceBlockEvent;
+import net.minecraftforge.event.level.ChunkEvent;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.forgespi.language.IModFileInfo;
+import net.minecraftforge.forgespi.locating.IModFile;
+import dev.redstudio.recrystallizedwing.utils.ModFilePackResources;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static dev.redstudio.recrystallizedwing.utils.ModReference.ID;
-import static dev.redstudio.recrystallizedwing.utils.ModReference.NAME;
-import static dev.redstudio.recrystallizedwing.utils.ModReference.VERSION;
+import static dev.redstudio.recrystallizedwing.utils.ModReference.*;
 
 //   /$$$$$$$             /$$$$$$                                  /$$               /$$ /$$ /$$                           /$$       /$$      /$$ /$$
 //  | $$__  $$           /$$__  $$                                | $$              | $$| $$|__/                          | $$      | $$  /$ | $$|__/
@@ -37,65 +87,78 @@ import static dev.redstudio.recrystallizedwing.utils.ModReference.VERSION;
 //                                           /$$  | $$                                                                                                          /$$  \ $$
 //                                          |  $$$$$$/                                                                                                         |  $$$$$$/
 //                                           \______/                                                                                                           \______/
+@Mod(ID)
 @Mod.EventBusSubscriber
-@Mod(modid = ID, name = NAME, version = VERSION, updateJSON = "https://raw.githubusercontent.com/Red-Studio-Ragnarok/ReCrystallized-Wing/main/update.json")
 public final class RCW {
 
-    private static final Map<String, ResourceLocation> LOOT_TABLE_MAP = new HashMap<>();
+    private static final Map<ResourceLocation, ResourceLocation> LOOT_TABLE_MAP = new HashMap<>();
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ID);
 
-    private static final ResourceLocation OVERWORLD_LOOT_TABLE = new ResourceLocation(ID, "overworld_loot");
-    private static final ResourceLocation NETHER_LOOT_TABLE = new ResourceLocation(ID, "nether_loot");
-    private static final ResourceLocation END_LOOT_TABLE = new ResourceLocation(ID, "end_loot");
+    public static final RegistryObject<Item> CRYSTAL_WING_ITEM = ITEMS.register("crystal_wing", () -> new CrystalWing(new CrystalWing.Properties()));
+    public static final RegistryObject<Item> BURNING_WING = ITEMS.register("burning_wing", () -> new BurningWing(new BurningWing.Properties()));
+    public static final RegistryObject<Item> BURNT_WING = ITEMS.register("burnt_wing", () -> new BurntWing(new BurntWing.Properties()));
+    public static final RegistryObject<Item> ENDER_SCEPTER = ITEMS.register("ender_scepter", () -> new EnderScepter(new EnderScepter.Properties()));
 
-    public static Item crystalWing, burningWing, burntWing, enderScepter;
+    public RCW() {
+        ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
-    static {
-        LOOT_TABLE_MAP.put("minecraft:chests/desert_pyramid", OVERWORLD_LOOT_TABLE);
-        LOOT_TABLE_MAP.put("minecraft:chests/spawn_bonus_chest", OVERWORLD_LOOT_TABLE);
-        LOOT_TABLE_MAP.put("minecraft:chests/simple_dungeon", OVERWORLD_LOOT_TABLE);
-        LOOT_TABLE_MAP.put("minecraft:chests/stronghold_library", OVERWORLD_LOOT_TABLE);
-        LOOT_TABLE_MAP.put("minecraft:chests/nether_bridge", NETHER_LOOT_TABLE);
-        LOOT_TABLE_MAP.put("minecraft:chests/end_city_treasure", END_LOOT_TABLE);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, RCWClientConfig.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, RCWServerConfig.SPEC);
     }
 
-    @Mod.EventHandler
-    public static void init(final FMLInitializationEvent initializationEvent) {
-        LootTableList.register(OVERWORLD_LOOT_TABLE);
-        LootTableList.register(NETHER_LOOT_TABLE);
-        LootTableList.register(END_LOOT_TABLE);
+    static {
+        LOOT_TABLE_MAP.put(new ResourceLocation("minecraft", "chests/desert_pyramid"), new ResourceLocation(ID, "overworld_loot"));
+        LOOT_TABLE_MAP.put(new ResourceLocation("minecraft", "chests/spawn_bonus_chest"), new ResourceLocation(ID, "overworld_loot"));
+        LOOT_TABLE_MAP.put(new ResourceLocation("minecraft", "chests/simple_dungeon"), new ResourceLocation(ID, "overworld_loot"));
+        LOOT_TABLE_MAP.put(new ResourceLocation("minecraft", "chests/stronghold_library"), new ResourceLocation(ID, "overworld_loot"));
+        LOOT_TABLE_MAP.put(new ResourceLocation("minecraft", "chests/nether_bridge"), new ResourceLocation(ID, "nether_loot"));
+        LOOT_TABLE_MAP.put(new ResourceLocation("minecraft", "chests/end_city_treasure"), new ResourceLocation(ID, "end_loot"));
     }
 
     @SubscribeEvent
-    public static void lootTableLoad(final LootTableLoadEvent lootTableLoadEvent) {
-        final ResourceLocation lootTableResourceLocation = LOOT_TABLE_MAP.get(lootTableLoadEvent.getName().toString());
+    public static void lootTableLoad(final LootTableLoadEvent event) {
+        final ResourceLocation lootTableResourceLocation = LOOT_TABLE_MAP.get(event.getName());
 
         if (lootTableResourceLocation == null)
             return;
 
-        final String lootTableName = lootTableResourceLocation.getPath() + "_loot";
+        final LootPoolEntryContainer.Builder<?> entryBuilder = LootTableReference.lootTableReference(lootTableResourceLocation).setQuality(1);
 
-        final LootEntry lootEntryTable = new LootEntryTable(lootTableResourceLocation, 1, 1, new LootCondition[0], lootTableName);
-        final LootPool lootPool = new LootPool(new LootEntry[]{lootEntryTable}, new LootCondition[0], new RandomValueRange(1, 2), new RandomValueRange(1, 2), lootTableName);
+        final LootPool.Builder poolBuilder = new LootPool.Builder()
+                .name(lootTableResourceLocation.getPath() + "_loot")
+                .setRolls(UniformGenerator.between(1, 2))
+                .setBonusRolls(UniformGenerator.between(1, 2))
+                .add(entryBuilder);
 
-        lootTableLoadEvent.getTable().addPool(lootPool);
+        event.getTable().addPool(poolBuilder.build());
     }
 
-    @SubscribeEvent
-    public static void registerItems(final RegistryEvent.Register<Item> itemRegistryEvent) {
-        crystalWing = new CrystalWing().setTranslationKey("crystal_wing").setRegistryName(ID, "crystal_wing");
-        burningWing = new BurningWing().setTranslationKey("burning_wing").setRegistryName(ID, "burning_wing");
-        burntWing = new BurntWing().setTranslationKey("burnt_wing").setRegistryName(ID, "burnt_wing");
-        enderScepter = new EnderScepter().setTranslationKey("ender_scepter").setRegistryName(ID, "ender_scepter");
+    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+    public static final class ModBusEvents {
 
-        itemRegistryEvent.getRegistry().registerAll(crystalWing, burningWing, burntWing, enderScepter);
-    }
+        /**
+         * Taken from <a href="https://github.com/Creators-of-Create/Create/blob/mc1.19/dev/src/main/java/com/simibubi/create/foundation/events/CommonEvents.java#L198">Create</a>
+         */
+        @SubscribeEvent
+        public static void addPackFinders(final AddPackFindersEvent addPackFindersEvent) {
+            if (addPackFindersEvent.getPackType() != PackType.CLIENT_RESOURCES)
+                return;
 
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public static void registerRenders(final ModelRegistryEvent modelRegistryEvent) {
-        ModelLoader.setCustomModelResourceLocation(crystalWing, 0, new ModelResourceLocation(crystalWing.delegate.name(), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(burningWing, 0, new ModelResourceLocation(burningWing.delegate.name(), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(burntWing, 0, new ModelResourceLocation(burntWing.delegate.name(), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(enderScepter, 0, new ModelResourceLocation(enderScepter.delegate.name(), "inventory"));
+            final IModFileInfo modFileInfo = ModList.get().getModFileById(ID);
+
+            if (modFileInfo == null) {
+                LOGGER.error("Could not find Create mod file info; built-in resource packs will be missing!");
+                return;
+            }
+
+            final IModFile modFile = modFileInfo.getFile();
+
+            addResourcePack(addPackFindersEvent, modFile, "rcw_nostalgic_models", "RCW Nostalgic Models");
+            addResourcePack(addPackFindersEvent, modFile, "rcw_programmer_art", "RCW Wing Programmer Art");
+        }
+
+        private static void addResourcePack(final AddPackFindersEvent addPackFindersEvent, final IModFile modFile, final String resourcePackPath, final String resourcePackName) {
+            addPackFindersEvent.addRepositorySource((consumer, constructor) -> consumer.accept(Pack.create(new ResourceLocation(ID, resourcePackPath).toString(), false, () -> new ModFilePackResources(resourcePackName, modFile, "resourcepacks/" + resourcePackPath), constructor, Pack.Position.TOP, PackSource.DEFAULT)));
+        }
     }
 }

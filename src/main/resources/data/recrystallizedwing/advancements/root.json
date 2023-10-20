@@ -9,19 +9,27 @@
     "description": {
       "translate": "advancements.crystalWing.description"
     },
-    "background": "minecraft:textures/blocks/end_bricks.png",
+    "background": "minecraft:textures/block/end_stone_bricks.png",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
     "hidden": true
   },
   "criteria": {
-    "stone_pickaxe": {
+    "requirement": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "recrystallizedwing:crystal_wing"
+            "items": [
+              "recrystallizedwing:crystal_wing"
+            ]
           }
         ]
       }
     }
+  },
+  "rewards": {
+    "experience": 64
   }
 }

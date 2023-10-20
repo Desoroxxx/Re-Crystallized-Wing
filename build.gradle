@@ -4,9 +4,11 @@ plugins {
     id("java")
     id("java-library")
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
-    id("com.gtnewhorizons.retrofuturagradle") version "1.+"
     id("com.matthewprenger.cursegradle") version "1.4.0"
+    id("net.neoforged.gradle") version "6.+"
     id("io.freefair.lombok") version "8.3"
+    id("com.github.gmazzo.buildconfig") version "4.1.2"
+    id("org.parchmentmc.librarian.forgegradle") version '1.+'
 }
 
 // Add version to the jar name
@@ -15,8 +17,8 @@ version project.version
 // Set the toolchain version to decouple the Java we run Gradle with from the Java used to compile and run the mod
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-        vendor.set(JvmVendorSpec.AZUL)
+        languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.ADOPTIUM)
     }
     // Generate sources jar when building and publishing
     withSourcesJar()
@@ -28,25 +30,81 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 minecraft {
-    mcVersion = '1.12.2'
+    mappings channel: 'parchment', version: '2022.11.27-1.19.2'
 
-    username = 'Desoroxxx'
+    copyIdeResources = true
 
-    extraRunJvmArguments.addAll("-Xmx4G", "-Dforge.logging.console.level=debug")
+    runs {
+        client {
+            workingDirectory project.file("run")
 
-    injectedTags.put('ID', project.id)
-    injectedTags.put('VERSION', project.version)
+            property "forge.logging.markers", "REGISTRIES"
+
+            property "forge.logging.console.level", "debug"
+
+            mods {
+                recrystallizedwing {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file("run")
+
+            property "forge.logging.markers", "REGISTRIES"
+
+            property "forge.logging.console.level", "debug"
+
+            mods {
+                recrystallizedwing {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file("run")
+
+            property "forge.logging.markers", "REGISTRIES"
+
+            property "forge.logging.console.level", "debug"
+
+            args "--mod", "recrystallizedwing", "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/")
+
+            mods {
+                recrystallizedwing {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
-tasks.injectTags.configure {
-    outputClassName.set("dev.redstudio.${project.id}.Tags")
+sourceSets.main.resources { srcDir "src/generated/resources" }
+
+repositories {
+    maven {
+        name = "Forge Maven"
+        url = "https://maven.minecraftforge.net/"
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:1.19.2-43.2.23"
+}
+
+buildConfig {
+    buildConfigField("String", "ID", "\"${project.id}\"")
+    buildConfigField("String", "NAME", "\"${project.name}\"")
+    buildConfigField("String", "VERSION", "\"${project.version}\"")
 }
 
 processResources {
     inputs.property "id", project.id
     inputs.property "version", project.version
-    filesMatching("mcmod.info") { fcd ->
-        include "mcmod.info"
+    filesMatching("META-INF/mods.toml") { fcd ->
+        include "META-INF/mods.toml"
         fcd.expand (
                 "id": project.id,
                 "version": project.version
@@ -68,38 +126,4 @@ idea {
                 file("bin")
         ]
     }
-
-    project { settings {
-        runConfigurations {
-            "Client"(Gradle) {
-                taskNames = ["runClient"]
-            }
-            "Server"(Gradle) {
-                taskNames = ["runServer"]
-            }
-            "Obfuscated Client"(Gradle) {
-                taskNames = ["runObfClient"]
-            }
-            "Obfuscated Server"(Gradle) {
-                taskNames = ["runObfServer"]
-            }
-            "Vanilla Client"(Gradle) {
-                taskNames = ["runVanillaClient"]
-            }
-            "Vanilla Server"(Gradle) {
-                taskNames = ["runVanillaServer"]
-            }
-        }
-
-        compiler.javac {
-            afterEvaluate {
-                javacAdditionalOptions = "-encoding utf8"
-                moduleJavacAdditionalOptions = [ (project.id + ".main"): tasks.compileJava.options.compilerArgs.collect { """ + it + """ }.join(" ") ]
-            }
-        }
-    }}
-}
-
-tasks.named("processIdeaSettings").configure {
-    dependsOn("injectTags")
 }

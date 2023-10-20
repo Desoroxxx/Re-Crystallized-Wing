@@ -1,14 +1,12 @@
 pluginManagement {
     repositories {
         maven {
-            // RetroFuturaGradle
-            name = "GTNH Maven"
-            url = uri("http://jenkins.usrv.eu:8081/nexus/content/groups/public/")
-            allowInsecureProtocol = true
-            mavenContent {
-                includeGroup("com.gtnewhorizons")
-                includeGroup("com.gtnewhorizons.retrofuturagradle")
-            }
+            name = "NeoForged Maven"
+            url = "https://maven.neoforged.net/"
+        }
+        maven {
+            name = "Parchment Maven"
+            url = "https://maven.parchmentmc.org"
         }
         gradlePluginPortal()
         mavenCentral()

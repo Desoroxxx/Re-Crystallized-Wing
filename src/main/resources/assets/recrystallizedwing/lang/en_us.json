@@ -1,0 +1,17 @@
+{
+  "recrystallizedwing.teleport.chatMessage": "Magical winds brought you home",
+
+  "item.recrystallizedwing.crystal_wing": "Crystal Wing",
+  "item.recrystallizedwing.burning_wing": "Burning Wing",
+  "item.recrystallizedwing.burnt_wing": "Burnt Wing",
+  "item.recrystallizedwing.ender_scepter": "Ender Scepter",
+
+  "advancements.crystalWing.title": "The Power Of Magical Winds",
+  "advancements.crystalWing.description": "Get a Crystal Wing.",
+
+  "advancements.burntWing.title": "To Hell And Back",
+  "advancements.burntWing.description": "Get a Burnt Wing by entering water with a Burning Wing.",
+
+  "advancements.enderScepter.title": "Harnessing The End",
+  "advancements.enderScepter.description": "Harness the power of an ender eye with an ender scepter."
+}

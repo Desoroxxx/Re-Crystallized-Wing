@@ -1,7 +1,8 @@
 package dev.redstudio.recrystallizedwing.items;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 
 /**
  * A base class for all the items aimed at reducing duplicated code.
@@ -11,18 +12,7 @@ import net.minecraft.item.Item;
  */
 public class BaseItem extends Item {
 
-    public BaseItem() {
-        setCreativeTab(CreativeTabs.TRANSPORTATION);
-
-        maxStackSize = 1;
-    }
-
-    public BaseItem(final int durability) {
-        this();
-
-        if (durability > 1)
-            setMaxDamage(durability - 1);
-        else if (durability == 1)
-            setMaxDamage(1);
+    public BaseItem(final Properties properties, final int durability) {
+        super(properties.tab(CreativeModeTab.TAB_TRANSPORTATION).durability(durability > 1 ? durability - 1 : durability == 1 ? 1 : 0));
     }
 }

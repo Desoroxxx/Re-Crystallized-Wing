@@ -1,33 +1,35 @@
 package dev.redstudio.recrystallizedwing.items;
 
 import dev.redstudio.recrystallizedwing.utils.RCWUtils;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
-import static dev.redstudio.recrystallizedwing.RCW.burntWing;
+import static dev.redstudio.recrystallizedwing.RCW.BURNT_WING;
 
 public final class BurningWing extends BaseItem {
 
+    public BurningWing(final Properties properties) {
+        super(properties, 1);
+    }
+
     @Override
-    public void onUpdate(final ItemStack itemStack, final World world, final Entity entity, final int itemSlot, final boolean flag) {
-        if (world.isRemote)
+    public void inventoryTick(final ItemStack itemStack, final Level world, final Entity entity, final int itemSlot, final boolean flag) {
+        if (world.isClientSide)
             return;
 
         if (entity.isInWater()) {
-            if (!(entity instanceof EntityPlayer))
+            if (!(entity instanceof Player player))
                 return;
 
-            final EntityPlayer player = (EntityPlayer) entity;
-
-            world.playSound(null, player.getPosition(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.MASTER, 1, 1);
+            world.playSound(null, player.blockPosition(), SoundEvents.LAVA_EXTINGUISH, SoundSource.MASTER, 1, 1);
             RCWUtils.spawnExplosionParticleAtEntity(player, 160);
 
-            player.inventory.setInventorySlotContents(itemSlot, new ItemStack(burntWing));
-        } else if (!entity.isBurning())
-            entity.setFire(2);
+            player.getInventory().setItem(itemSlot, new ItemStack(BURNT_WING.get()));
+        } else if (!entity.isOnFire())
+            entity.setSecondsOnFire(2);
     }
 }

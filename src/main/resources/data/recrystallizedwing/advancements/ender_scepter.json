@@ -1,7 +1,8 @@
 {
+  "parent": "recrystallizedwing:root",
   "display": {
     "icon": {
-        "item": "recrystallizedwing:ender_scepter"
+      "item": "recrystallizedwing:ender_scepter"
     },
     "title": {
       "translate": "advancements.enderScepter.title"
@@ -9,19 +10,26 @@
     "description": {
       "translate": "advancements.enderScepter.description"
     },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "recrystallizedwing:root",
   "criteria": {
-    "stone_pickaxe": {
+    "requirement": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "recrystallizedwing:ender_scepter"
+            "items": [
+              "recrystallizedwing:ender_scepter"
+            ]
           }
         ]
       }
     }
+  },
+  "rewards": {
+    "experience": 128
   }
 }

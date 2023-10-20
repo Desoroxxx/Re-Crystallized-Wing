@@ -1,53 +1,49 @@
 package dev.redstudio.recrystallizedwing.items;
 
-import dev.redstudio.recrystallizedwing.config.RCWConfig;
+import dev.redstudio.recrystallizedwing.config.RCWServerConfig;
 import dev.redstudio.recrystallizedwing.utils.RCWUtils;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 
 public final class EnderScepter extends BaseItem {
 
-    public EnderScepter() {
-        super(RCWConfig.common.durability.enderScepterDurability);
+    public EnderScepter(final Properties properties) {
+        super(properties.rarity(Rarity.UNCOMMON), RCWServerConfig.enderScepterDurability);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(final World world, final EntityPlayer player, final EnumHand hand) {
-        final ItemStack itemStack = player.getHeldItem(hand);
+    public InteractionResultHolder<ItemStack> use(final Level level, final Player player, final InteractionHand hand) {
+        final ItemStack itemStack = player.getItemInHand(hand);
 
-        if (!world.isRemote) {
-            final RayTraceResult rayTraceResult = RCWUtils.rayTraceWithExtendedReach(world, player);
+        if (!level.isClientSide) {
+            final HitResult hitResult = RCWUtils.rayTraceWithExtendedReach(level, player);
 
-            if ((rayTraceResult != null) && rayTraceResult.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
-                final BlockPos.MutableBlockPos target = new BlockPos.MutableBlockPos(rayTraceResult.getBlockPos());
+            if (hitResult.getType().equals(HitResult.Type.BLOCK)) {
+                final BlockPos.MutableBlockPos target = new BlockPos(hitResult.getLocation()).mutable();
 
-                if (player.capabilities.isFlying)
-                    target.setY(Math.max((int) player.posY, RCWUtils.getHighestSolidBlock(world, target, true)));
+                if (player.getAbilities().flying)
+                    target.setY(Math.max((int) player.getY(), RCWUtils.getHighestSolidBlock(level, target, true)));
 
-                RCWUtils.teleportPlayer(world, player, target, 40);
+                RCWUtils.teleportPlayer(level, player, target, 40);
 
-                if (RCWConfig.common.durability.enderScepterDurability == 1)
-                    itemStack.damageItem(2, player);
-                else if (RCWConfig.common.durability.enderScepterDurability > 0)
-                    itemStack.damageItem(1, player);
+                if (RCWServerConfig.enderScepterDurability == 1)
+                    itemStack.hurtAndBreak(2, player, player1 -> player1.broadcastBreakEvent(hand == InteractionHand.MAIN_HAND  ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
+                else if (RCWServerConfig.enderScepterDurability > 0)
+                    itemStack.hurtAndBreak(1, player, player1 -> player1.broadcastBreakEvent(hand == InteractionHand.MAIN_HAND  ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
 
-                player.getCooldownTracker().setCooldown(this, RCWConfig.common.cooldown.enderScepterCooldown);
+                player.getCooldowns().addCooldown(this, RCWServerConfig.enderScepterCooldown);
 
-                return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
+                return InteractionResultHolder.success(itemStack);
             }
         }
 
-        return new ActionResult<>(EnumActionResult.PASS, itemStack);
-    }
-
-    public EnumRarity getForgeRarity(final ItemStack itemStack) {
-        return EnumRarity.UNCOMMON;
+        return InteractionResultHolder.pass(itemStack);
     }
 }
